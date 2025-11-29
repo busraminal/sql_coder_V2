@@ -132,6 +132,7 @@ Metrikler: Exec-Accuracy, AST Accuracy, Repair Rate, Reflection Loop Success.
 ---
 ## Hugging Face
 -Eğitilmiş modele buradan ulaşabilirsiniz
+
 -https://huggingface.co/BMina/sql_coder
 
 ---
