@@ -1,0 +1,500 @@
+{"instruction": "Bu kullanıcı tarafından eklenen teferruatları getir.", "input": "EkleyenId = 7", "output": "SELECT * FROM varlik.\"Teferruatlar\" WHERE \"EkleyenId\" = :EkleyenId;"}
+{"instruction": "Sözleşme tipi belirli olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"SozlesmeTipiId\" = :TipId;"}
+{"instruction": "Hissedar sayısı 1 olan varlıkları listele.", "input": "", "output": "SELECT \"VarlikId\" FROM varlik.\"Mulkiyetler\" GROUP BY \"VarlikId\" HAVING COUNT(*) = 1;"}
+{"instruction": "Hukuki süreç açıklaması 'dava' içeren kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Hukuklar\" WHERE \"Aciklama\" ILIKE '%dava%';"}
+{"instruction": "Bu varlık için en eski fotoğrafı getir.", "input": "VarlikId = 910", "output": "SELECT * FROM varlik.\"Fotolar\" WHERE \"VarlikId\" = :VarlikId ORDER BY \"EklemeTarihi\" ASC LIMIT 1;"}
+{"instruction": "Bu varlığa ait sigorta sayısını getir.", "input": "VarlikId = 1551", "output": "SELECT COUNT(*) FROM varlik.\"Sigortalar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu varlığa ait tüm sigortaları getir.", "input": "VarlikId = 881", "output": "SELECT s.* FROM varlik.\"Sigortalar\" s WHERE s.\"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu hukuk dosyasına ait tüm açıklamaları getir.", "input": "HukukId = 912", "output": "SELECT \"Aciklama\" FROM varlik.\"Safahatlar\" WHERE \"HukukId\" = :HukukId;"}
+{"instruction": "Bu malikin en büyük oranını getir.", "input": "", "output": "SELECT MAX(\"HissePay\"::float/\"HissePayda\") FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\"=:MalikId;"}
+{"instruction": "Hissesi 1/2 olan mülkiyetleri listele.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE (\"HissePay\"::float / \"HissePayda\") = :Hisse;"}
+{"instruction": "Bahçe eklentilerini listele.", "input": "", "output": "SELECT * FROM varlik.\"Eklentiler\" WHERE \"EklentiTuru\" ILIKE 'Bahçe';"}
+{"instruction": "İpotek dışında tüm takyidatları getir.", "input": "", "output": "SELECT * FROM varlik.\"Takyidatlar\" WHERE \"TakyidatTuruId\" <> :IpotekTipId;"}
+{"instruction": "Bu hukuk kaydının ekleyen kullanıcısının ad-soyadını getir.", "input": "HukukId = 311", "output": "SELECT k.\"AdSoyad\" FROM varlik.\"Hukuklar\" h JOIN varlik.\"Kullanicilar\" k ON k.\"Id\" = h.\"EkleyenId\" WHERE h.\"Id\" = :HukukId;"}
+{"instruction": "Brüt alanı 227 m² üzerindeki taşınmazları getir.", "input": {"Metrekare": 227}, "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"BBBrutYuzOlcumu\" > :Metrekare;"}
+{"instruction": "Açıklaması 'revize' içeren haritaları getir.", "input": "", "output": "SELECT * FROM varlik.\"Haritalar\" WHERE \"Aciklama\" ILIKE '%revize%';"}
+{"instruction": "Bu ruhsat hangi varlığa ait?", "input": "RuhsatId = 1552", "output": "SELECT v.* FROM varlik.\"Ruhsatlar\" r JOIN varlik.\"Varliklar\" v ON v.\"Id\" = r.\"VarlikId\" WHERE r.\"Id\" = :RuhsatId;"}
+{"instruction": "Bu hukuki işleme ait varlığın alt tipini getir.", "input": "HukukId = 411", "output": "SELECT tp2.* FROM varlik.\"Hukuklar\" h JOIN varlik.\"Varliklar\" v ON v.\"Id\" = h.\"VarlikId\" JOIN varlik.\"Tipler\" tp2 ON tp2.\"Id\" = v.\"AltTipId\" WHERE h.\"Id\" = :HukukId;"}
+{"instruction": "Bağımsız bölüm numarası 10 olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"BBNo\" = 10;"}
+{"instruction": "Hisse payı ve payda bilgisine göre oranları grupla.", "input": "", "output": "SELECT (\"HissePay\"::float / \"HissePayda\") AS oran, COUNT(*) FROM varlik.\"Mulkiyetler\" GROUP BY oran;"}
+{"instruction": "Bu bağımsız bölümün bulunduğu ilçe bilgisini getir.", "input": "BBId = 882", "output": "SELECT ilce.\"Ad\" FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" ilce ON t.\"IlceId\" = ilce.\"Id\" WHERE t.\"Id\" = 882;"}
+{"instruction": "Hukuk kaydı olmayan varlıklar hangileri?", "input": "", "output": "SELECT v.\"Id\" FROM varlik.\"Varliklar\" v WHERE NOT EXISTS (SELECT 1 FROM varlik.\"Safahatlar\" s WHERE s.\"VarlikId\" = v.\"Id\");"}
+{"instruction": "Açıklaması boş teferruatları listele.", "input": "", "output": "SELECT * FROM varlik.\"Teferruatlar\" WHERE \"Aciklama\" IS NULL OR \"Aciklama\" = '';"}
+{"instruction": "Bu firmaya ait son yüklenen 5 haritayı getir.", "input": "FirmaId = 3", "output": "SELECT * FROM varlik.\"Haritalar\" WHERE \"FirmaId\" = :FirmaId ORDER BY \"OlusturmaTarihi\" DESC LIMIT 5;"}
+{"instruction": "Bina giriş yönü kuzeye bakan yapıları listele.", "input": "", "output": "SELECT * FROM varlik.\"Yapilar\" WHERE \"GirisYon\" ILIKE 'Kuzey';"}
+{"instruction": "Bu mülkiyet kaydına ait takyidatları getir.", "input": "HisseId = 700", "output": "SELECT t.* FROM varlik.\"Takyidatlar\" t WHERE t.\"HisseId\" = :HisseId;"}
+{"instruction": "Bu varlıkta tek malik olup olmadığını kontrol et.", "input": "", "output": "SELECT CASE WHEN COUNT(DISTINCT \"MalikId\")=1 THEN TRUE ELSE FALSE END FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId;"}
+{"instruction": "Varlığın aktif kullanıcı bilgisini getir.", "input": "VarlikId = 2020", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 2020 AND \"KullaniciTuruId\" IS NOT NULL;"}
+{"instruction": "Bu sözleşmenin sözleşme tipi adını getir.", "input": "SozlesmeId = 811", "output": "SELECT tp.\"Ad\" FROM varlik.\"Sozlesmeler\" s JOIN varlik.\"Tipler\" tp ON tp.\"Id\" = s.\"SozlesmeTipiId\" WHERE s.\"Id\" = :SozlesmeId;"}
+{"instruction": "Bu varlıktaki en eski kayıtların ilk 3 tanesini getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId ORDER BY \"EdinmeTarihi\" ASC LIMIT 3;"}
+{"instruction": "VRL004 kodlu varlığın taşınmaz kaydını getir.", "input": {"Kod": "VRL004"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Varliklar\" v ON t.\"VarlikId\" = v.\"Id\" WHERE v.\"Kod\" ILIKE :Kod;"}
+{"instruction": "Firma 4’e ait ruhsat kayıtlarını getir.", "input": "FirmaId = 4", "output": "SELECT * FROM varlik.\"Ruhsatlar\" WHERE \"FirmaId\" = :FirmaId;"}
+{"instruction": "Brüt alanı 429 m² üzerindeki taşınmazları getir.", "input": {"Metrekare": 429}, "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"BBBrutYuzOlcumu\">:Metrekare;"}
+{"instruction": "Bu malikin 0.5’ten küçük hisse oranlı kayıtlarını getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\"=:MalikId AND (\"HissePay\"::float/\"HissePayda\") < 0.5;"}
+{"instruction": "Varlığa ait maliklerin toplam sayısını getir.", "input": "", "output": "SELECT COUNT(*) FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu varlığın iletişim bilgilerini listele.", "input": "VarlikId = 1773", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1773;"}
+{"instruction": "İzmir ilindeki tüm taşınmazları getir.", "input": "", "output": "SELECT t.\"Id\" FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\" = il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "Ulus mahallesindeki taşınmaz adreslerini göster.", "input": {"Mahalle": "Ulus"}, "output": "SELECT \"Mahalle\",\"Cadde\",\"DisKapiNo\",\"IcKapiNo\" FROM varlik.\"Tasinmazlar\" WHERE \"Mahalle\" ILIKE :Mahalle;"}
+{"instruction": "Bu varlıkta kiracı kaydı mevcut mu?", "input": "VarlikId = 148", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 148;"}
+{"instruction": "Fiili kullanıcı iletişim bilgilerini getir.", "input": "VarlikId = 1558", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1558;"}
+{"instruction": "Son 1 ay içinde eklenmiş sigortaları getir.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"EklenmeTarihi\" >= NOW() - INTERVAL '1 month';"}
+{"instruction": "3+1 olan bağımsız bölümleri listele.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"OdaSayisi\" = '3+1';"}
+{"instruction": "Ada 12 parsel 3 olan taşınmazı getir.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"Ada\" = 12 AND \"Parsel\" = 3;"}
+{"instruction": "Firma bazlı aktif sigortaları listele.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"FirmaId\" = :FirmaId AND \"BitisTarihi\" > NOW();"}
+{"instruction": "Bu varlığın sigorta tutarlarının toplamını getir.", "input": "VarlikId = 1312", "output": "SELECT SUM(\"Tutar\") FROM varlik.\"Sigortalar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu yapının arsa pay oranını getir.", "input": "YapiId = 501", "output": "SELECT \"ArsaPayiOrani\" FROM varlik.\"Yapilar\" WHERE \"Id\" = 501;"}
+{"instruction": "Etimesgut ilçesindeki taşınmazları listele.", "input": {"Ilce": "Etimesgut"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Keçiören ilçesindeki taşınmazları listele.", "input": {"Ilce": "Keçiören"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "İzmir ilindeki taşınmazları getir.", "input": {"Il": "İzmir"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\" = il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "350 m² üzerindeki taşınmazları listele.", "input": {"Metrekare": 350}, "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"BBBrutYuzOlcumu\" > :Metrekare;"}
+{"instruction": "Açıklamasında 'kira' geçen hukuk kayıtlarını getir.", "input": "", "output": "SELECT * FROM varlik.\"Hukuklar\" WHERE \"Aciklama\" ILIKE '%kira%';"}
+{"instruction": "Bu taşınmazda kiracı var mı?", "input": "VarlikId = 833", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 833 AND \"KullaniciTuruId\" IS NOT NULL;"}
+{"instruction": "Taşınmazda fiili kullanıcıyı getir.", "input": "VarlikId = 1230", "output": "SELECT \"AdSoyad\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1230;"}
+{"instruction": "En çok farklı varlığın maliki olan kişiyi getir.", "input": "", "output": "SELECT \"MalikId\", COUNT(*) AS adet FROM varlik.\"Mulkiyetler\" GROUP BY \"MalikId\" ORDER BY adet DESC LIMIT 1;"}
+{"instruction": "Son 3 ay içinde başlayan sözleşmeleri listele.", "input": "", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"BaslangicTarihi\" >= NOW() - INTERVAL '3 months';"}
+{"instruction": "Madde türü yangın olan sigortaları listele.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"SigortaTipiId\" = :TipId;"}
+{"instruction": "VRL003 kodlu varlığa ait taşınmaz kaydını getir.", "input": {"Kod": "VRL003"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Varliklar\" v ON t.\"VarlikId\" = v.\"Id\" WHERE v.\"Kod\" ILIKE :Kod;"}
+{"instruction": "Yeşil alan imarlı kayıtları listele.", "input": "", "output": "SELECT * FROM varlik.\"Imarlar\" WHERE \"ImarDurumu\" ILIKE 'Yeşil Alan';"}
+{"instruction": "Arsa payı %10’dan büyük olan yapıları listele.", "input": "", "output": "SELECT * FROM varlik.\"Yapilar\" WHERE \"ArsaPayiOrani\" > 0.10;"}
+{"instruction": "Ankara ilindeki tüm taşınmazları getir.", "input": {"Il": "Ankara"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\" = il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "Bu varlık üzerinde aktif sözleşme bulunuyor mu?", "input": "VarlikId = 1590", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 1590 AND \"BitisTarihi\" > now();"}
+{"instruction": "Mülkiyet oranı %50'den büyük ortakları listele.", "input": "", "output": "SELECT m.\"Ad\", m.\"Soyad\", (mu.\"HissePay\"::float/mu.\"HissePayda\") AS oran FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\"=mu.\"MalikId\" WHERE (mu.\"HissePay\"::float/mu.\"HissePayda\") > 0.50;"}
+{"instruction": "Poliçe numarası boş olan sigorta kayıtlarını getir.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"PoliçeNo\" IS NULL OR \"PoliçeNo\" = '';"}
+{"instruction": "Bitmesine 10 günden az kalan sigortaları listele.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"BitisTarihi\" <= NOW() + INTERVAL '10 days';"}
+{"instruction": "Bu varlığın maliklerinin ad-soyad listesini getir.", "input": "", "output": "SELECT m.\"Ad\",m.\"Soyad\" FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\"=mu.\"MalikId\" WHERE mu.\"VarlikId\"=:VarlikId;"}
+{"instruction": "Bu firmaya ait son 5 hukuk kaydını getir.", "input": "FirmaId = 10", "output": "SELECT * FROM varlik.\"Hukuklar\" WHERE \"FirmaId\" = :FirmaId ORDER BY \"BaslangicTarihi\" DESC LIMIT 5;"}
+{"instruction": "İzmir ilindeki taşınmazları getir.", "input": {"Il": "İzmir"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\"=il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "Ekleyen kullanıcıya göre haritaları listele.", "input": "EkleyenId = 9", "output": "SELECT * FROM varlik.\"Haritalar\" WHERE \"EkleyenId\" = :EkleyenId;"}
+{"instruction": "Altındağ ilçesindeki taşınmazları listele.", "input": {"Ilce": "Altındağ"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\"=i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Bu varlığa ait hukuk ve safahat bilgilerini birlikte getir.", "input": "VarlikId = 1441", "output": "SELECT s.*, h.* FROM varlik.\"Safahatlar\" s JOIN varlik.\"Hukuklar\" h ON h.\"Id\" = s.\"HukukId\" WHERE s.\"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu varlığa ait tüm iç teferruatları listele.", "input": "VarlikId = 2200", "output": "SELECT * FROM varlik.\"Teferruatlar\" WHERE \"VarlikId\" = :VarlikId AND \"Aciklama\" ILIKE '%iç%';"}
+{"instruction": "Bu varlığın kullanıcı adını getir.", "input": "VarlikId = 983", "output": "SELECT \"AdSoyad\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 983;"}
+{"instruction": "Pafta D12 içindeki taşınmazları getir.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"Pafta\" ILIKE :Pafta;"}
+{"instruction": "Bu haritanın açıklamasını getir.", "input": "HaritaId = 1180", "output": "SELECT \"Aciklama\" FROM varlik.\"Haritalar\" WHERE \"Id\" = :HaritaId;"}
+{"instruction": "Kullanıcı kayıtlarını listele.", "input": "VarlikId = 1614", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1614;"}
+{"instruction": "Bakımı yaklaşan varlıkları listele.", "input": "Tablo: Bakimlar(Id, VarlikId, BakimTarihi, SonrakiBakimTarihi)", "output": "SELECT b.\"VarlikId\", b.\"BakimTarihi\", b.\"SonrakiBakimTarihi\" FROM varlik.\"Bakimlar\" b WHERE b.\"SonrakiBakimTarihi\" <= NOW() + INTERVAL '15 days';"}
+{"instruction": "Edinme yılı 2022 olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE DATE_PART('year',\"EdinmeTarihi\")=2022;"}
+{"instruction": "Bu varlığın ruhsat bilgilerini getir.", "input": "VarlikId = 1444", "output": "SELECT r.* FROM varlik.\"Ruhsatlar\" r WHERE r.\"VarlikId\" = :VarlikId;"}
+{"instruction": "Yapı tarzı betonarme olan yapıları listele.", "input": "", "output": "SELECT * FROM varlik.\"Yapilar\" WHERE \"YapiTarzi\" ILIKE 'Betonarme';"}
+{"instruction": "Bu varlığın fiili kullanıcısını göster.", "input": "VarlikId = 1743", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1743;"}
+{"instruction": "Tek malik bulunan varlıkları listele.", "input": "", "output": "SELECT \"VarlikId\" FROM varlik.\"Mulkiyetler\" GROUP BY \"VarlikId\" HAVING COUNT(*) = 1;"}
+{"instruction": "Bu varlığın tüm maliklerini ad-soyad sıralamasıyla getir.", "input": "", "output": "SELECT m.\"Ad\", m.\"Soyad\" FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\"=mu.\"MalikId\" WHERE mu.\"VarlikId\"=:VarlikId ORDER BY m.\"Ad\", m.\"Soyad\";"}
+{"instruction": "VRL003 kodlu varlığın taşınmaz kaydını ver.", "input": {"Kod": "VRL003"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Varliklar\" v ON t.\"VarlikId\" = v.\"Id\" WHERE v.\"Kod\" ILIKE :Kod;"}
+{"instruction": "Bu malikin paydaş olduğu tüm varlıkları alfabetik sırayla getir.", "input": "", "output": "SELECT DISTINCT v.\"Ad\" FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Varliklar\" v ON v.\"Id\"=mu.\"VarlikId\" WHERE mu.\"MalikId\"=:MalikId ORDER BY v.\"Ad\";"}
+{"instruction": "Varlığa ait aktif safahat aşamalarını getir.", "input": "VarlikId = 661", "output": "SELECT DISTINCT \"Asama\" FROM varlik.\"Safahatlar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu varlığın harita kayıtlarını getir.", "input": "VarlikId = 411", "output": "SELECT h.* FROM varlik.\"Haritalar\" h WHERE h.\"VarlikId\" = :VarlikId;"}
+{"instruction": "Malik soyadına göre arama yap.", "input": "", "output": "SELECT * FROM varlik.\"Malikler\" WHERE \"Soyad\" ILIKE :Soyad;"}
+{"instruction": "Bu varlığın harita türünü getir.", "input": "VarlikId = 889", "output": "SELECT \"HaritaTuru\" FROM varlik.\"Haritalar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu malikin tüm varlıklarda ortalama hisse oranını getir.", "input": "", "output": "SELECT AVG(\"HissePay\"::float / \"HissePayda\") FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\" = :MalikId;"}
+{"instruction": "Aktif sözleşme var mı?", "input": "VarlikId = 775", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 775;"}
+{"instruction": "Bu varlıktaki en yüksek pay/payda oranını getir.", "input": "", "output": "SELECT MAX(\"HissePay\"::float/\"HissePayda\") FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId;"}
+{"instruction": "İli Bursa olan tüm taşınmazları getir.", "input": "", "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON il.\"Id\" = t.\"IlId\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "Metrekare değeri 50’den büyük eklentileri getir.", "input": "", "output": "SELECT * FROM varlik.\"Eklentiler\" WHERE \"Metrekare\" > 50;"}
+{"instruction": "Bitiş tarihi geçen sigorta poliçelerini listele.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"BitisTarihi\" < NOW();"}
+{"instruction": "Hukuk süreci devam eden varlıkları listele.", "input": "", "output": "SELECT DISTINCT \"VarlikId\" FROM varlik.\"Safahatlar\";"}
+{"instruction": "Brüt alanı 462 m² üzerindeki taşınmazları getir.", "input": {"Metrekare": 462}, "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"BBBrutYuzOlcumu\">:Metrekare;"}
+{"instruction": "Garanti başlangıç tarihi bugün olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Garantiler\" WHERE \"BaslangicTarihi\" = CURRENT_DATE;"}
+{"instruction": "Bu sözleşme türündeki en yüksek tutarlı kaydı getir.", "input": "SozlesmeTipiId = 19", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"SozlesmeTipiId\" = :SozlesmeTipiId ORDER BY \"Tutar\" DESC LIMIT 1;"}
+{"instruction": "Sözleşme başlangıç tarihini getir.", "input": "VarlikId = 1990", "output": "SELECT \"BaslangicTarihi\" FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 1990;"}
+{"instruction": "Bu varlığa ait tüm safahat kayıtlarını getir.", "input": "VarlikId = 901", "output": "SELECT s.* FROM varlik.\"Safahatlar\" s JOIN varlik.\"Hukuklar\" h ON h.\"Id\" = s.\"HukukId\" WHERE h.\"VarlikId\" = :VarlikId;"}
+{"instruction": "Fiili kullanıcıyı getir.", "input": "VarlikId = 1143", "output": "SELECT \"AdSoyad\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1143;"}
+{"instruction": "Mehmet Yılmaz adlı malike ait taşınmazları getir.", "input": "", "output": "SELECT t.* FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON mu.\"MalikId\" = m.\"Id\" JOIN varlik.\"Tasinmazlar\" t ON t.\"VarlikId\" = mu.\"VarlikId\" WHERE m.\"Ad\" ILIKE :Ad AND m.\"Soyad\" ILIKE :Soyad;"}
+{"instruction": "Kızılay mahallesindeki taşınmaz adreslerini göster.", "input": {"Mahalle": "Kızılay"}, "output": "SELECT \"Mahalle\",\"Cadde\",\"DisKapiNo\",\"IcKapiNo\" FROM varlik.\"Tasinmazlar\" WHERE \"Mahalle\" ILIKE :Mahalle;"}
+{"instruction": "Bu varlığın sözleşme bilgilerini listele.", "input": "VarlikId = 1022", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 1022;"}
+{"instruction": "Bu varlıkta kiracı kaydı var mı?", "input": "VarlikId = 645", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 645;"}
+{"instruction": "VRL004 kodlu varlığın taşınmaz kaydını getir.", "input": {"Kod": "VRL004"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Varliklar\" v ON t.\"VarlikId\" = v.\"Id\" WHERE v.\"Kod\" ILIKE :Kod;"}
+{"instruction": "Kızılay mahallesindeki taşınmazların adres bilgilerini göster.", "input": {"Mahalle": "Kızılay"}, "output": "SELECT \"Mahalle\", \"Cadde\", \"DisKapiNo\", \"IcKapiNo\" FROM varlik.\"Tasinmazlar\" WHERE \"Mahalle\" ILIKE :Mahalle;"}
+{"instruction": "Gelecek 3 ay içinde bitecek sigortaları getir.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"BitisTarihi\" <= NOW() + INTERVAL '3 months';"}
+{"instruction": "İlçesi Çankaya olan tüm taşınmazları getir.", "input": "", "output": "SELECT t.\"Id\" FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" ic ON t.\"IlceId\" = ic.\"Id\" WHERE ic.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Bu takyidatın başlangıç ve bitiş tarihlerini getir.", "input": "TakyidatId = 914", "output": "SELECT \"BaslangicTarihi\", \"BitisTarihi\" FROM varlik.\"Takyidatlar\" WHERE \"Id\" = :TakyidatId;"}
+{"instruction": "Bu varlıkta hisse payı 1 olan malik var mı?", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\" = :VarlikId AND \"HissePay\" = 1;"}
+{"instruction": "Taşınmazın kullanıcı kayıtlarını getir.", "input": "VarlikId = 1084", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1084;"}
+{"instruction": "Bu hisseye ait ipotek takyidatlarını getir.", "input": "HisseId = 910", "output": "SELECT * FROM varlik.\"Takyidatlar\" WHERE \"HisseId\" = :HisseId AND \"TakyidatTuruId\" = :IpotekTipId;"}
+{"instruction": "Kat sayısı 5'ten fazla olan binalardaki taşınmazları getir.", "input": "", "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Yapilar\" y ON t.\"VarlikId\" = y.\"VarlikId\" WHERE y.\"KatSayisi\" > 5;"}
+{"instruction": "Geçen yıl içinde oluşturulan safahat kayıtlarını getir.", "input": "", "output": "SELECT * FROM varlik.\"Safahatlar\" WHERE DATE_PART('year', \"Tarih\") = DATE_PART('year', NOW()) - 1;"}
+{"instruction": "Fotoğraf türü boş olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Fotolar\" WHERE \"FotoTuruId\" IS NULL;"}
+{"instruction": "Ayşe Aydın’ın sahip olduğu varlıkları getir.", "input": "", "output": "SELECT t.* FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON mu.\"MalikId\" = m.\"Id\" JOIN varlik.\"Tasinmazlar\" t ON t.\"VarlikId\" = mu.\"VarlikId\" WHERE m.\"Ad\" ILIKE :Ad AND m.\"Soyad\" ILIKE :Soyad;"}
+{"instruction": "Kullanıcı ID’si 25 olan hukuk kayıtlarını listele.", "input": "", "output": "SELECT * FROM varlik.\"Hukuklar\" WHERE \"EkleyenId\" = :EkleyenId;"}
+{"instruction": "Bu varlığın fiili kullanıcısını getir.", "input": "VarlikId = 1329", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1329;"}
+{"instruction": "Kat planı bulunmayan yapıları listele.", "input": "", "output": "SELECT * FROM varlik.\"Yapilar\" WHERE \"KatPlani\" IS NULL;"}
+{"instruction": "Bu varlığın tüm sözleşme tiplerini listele.", "input": "VarlikId = 1022", "output": "SELECT DISTINCT \"SozlesmeTipiId\" FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Geçerli sözleşmeyi getir.", "input": "VarlikId = 1599", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 1599 AND \"BitisTarihi\" > now();"}
+{"instruction": "Bu varlığa ait en son açılan hukuk kaydını getir.", "input": "VarlikId = 920", "output": "SELECT * FROM varlik.\"Hukuklar\" WHERE \"VarlikId\" = :VarlikId ORDER BY \"BaslangicTarihi\" DESC LIMIT 1;"}
+{"instruction": "İzmir ilindeki tüm taşınmazları getir.", "input": {"Il": "İzmir"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\" = il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "Hissesi tam mülkiyet olan kayıtları listele.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"HissePay\" = \"HissePayda\";"}
+{"instruction": "Varlığa ait toplam payda değerini getir.", "input": "", "output": "SELECT SUM(\"HissePayda\") FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Sözleşme kapsamı belirli kelime içeren kayıtları listele.", "input": "", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"Kapsam\" ILIKE '%' || :Kelime || '%';"}
+{"instruction": "Bu harita kaydı hangi varlığa ait?", "input": "HaritaId = 1602", "output": "SELECT v.* FROM varlik.\"Haritalar\" h JOIN varlik.\"Varliklar\" v ON v.\"Id\" = h.\"VarlikId\" WHERE h.\"Id\" = :HaritaId;"}
+{"instruction": "Çankaya ilçesindeki taşınmazları listele.", "input": {"Ilce": "Çankaya"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Bu malike ait mülkiyetlerin edinme tarihlerini getir.", "input": "MalikId = 72", "output": "SELECT mu.\"EdinmeTarihi\" FROM varlik.\"Mulkiyetler\" mu WHERE mu.\"MalikId\" = :MalikId;"}
+{"instruction": "Kullanıcı türünü getir.", "input": "VarlikId = 1881", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1881;"}
+{"instruction": "Bu varlığın vergi kayıtlarını getir.", "input": "VarlikId = 144", "output": "SELECT vg.* FROM varlik.\"Vergiler\" vg WHERE vg.\"VarlikId\" = :VarlikId;"}
+{"instruction": "Fiili kullanıcı bilgilerini getir.", "input": "VarlikId = 1899", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1899;"}
+{"instruction": "Blok A zemin kat bağımsız bölümleri getir.", "input": "", "output": "SELECT * FROM varlik.\"BagimsizBolumler\" WHERE \"Blok\" ILIKE 'A' AND \"Kat\" ILIKE 'Zemin';"}
+{"instruction": "Bu varlıkta kullanıcı türü nedir?", "input": "VarlikId = 599", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 599;"}
+{"instruction": "Adı Mehmet olan maliklerin hisse payı toplamını getir.", "input": "", "output": "SELECT SUM(mu.\"HissePay\") FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\" = mu.\"MalikId\" WHERE m.\"Ad\" ILIKE :Ad;"}
+{"instruction": "Edinme tarihi 2015’ten eski kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"EdinmeTarihi\" < '2015-01-01';"}
+{"instruction": "Etimesgut ilçesindeki taşınmazları listele.", "input": {"Ilce": "Etimesgut"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "VRL001 kodlu varlığın taşınmaz kaydını getir.", "input": {"Kod": "VRL001"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Varliklar\" v ON t.\"VarlikId\"=v.\"Id\" WHERE v.\"Kod\" ILIKE :Kod;"}
+{"instruction": "Varlığın aktif kullanıcı bilgilerini getir.", "input": "VarlikId = 1968", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1968 AND \"KullaniciTuruId\" IS NOT NULL;"}
+{"instruction": "Bu kullanıcıya ait son sigorta kaydını getir.", "input": "EkleyenId = 14", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"EkleyenId\" = :EkleyenId ORDER BY \"BaslangicTarihi\" DESC LIMIT 1;"}
+{"instruction": "Bağımsız bölüm numarası 3 olan kaydı getir.", "input": "", "output": "SELECT * FROM varlik.\"BagimsizBolumler\" WHERE \"BagimsizBolumNo\" = 3;"}
+{"instruction": "Ada 98 üzerindeki taşınmazları göster.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"Ada\" = 98;"}
+{"instruction": "Kullanıcı telefon bilgilerini getir.", "input": "VarlikId = 1315", "output": "SELECT \"Telefon\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1315;"}
+{"instruction": "Bu varlığın ruhsat türünü getir.", "input": "VarlikId = 702", "output": "SELECT DISTINCT \"RuhsatTuru\" FROM varlik.\"Ruhsatlar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu varlığın fiili kullanıcısı kimdir?", "input": "VarlikId = 1813", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1813;"}
+{"instruction": "Ekleyen kullanıcı 3 olan sigorta kayıtlarını getir.", "input": "EkleyenId = 3", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"EkleyenId\" = :EkleyenId;"}
+{"instruction": "Bu varlıkta kim ikamet ediyor?", "input": "VarlikId = 990", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 990;"}
+{"instruction": "Belirli bir malike ait en düşük hisse oranlı varlığı getir.", "input": "", "output": "SELECT mu.\"VarlikId\", (mu.\"HissePay\"::float / mu.\"HissePayda\") AS oran FROM varlik.\"Mulkiyetler\" mu WHERE mu.\"MalikId\" = :MalikId ORDER BY oran ASC LIMIT 1;"}
+{"instruction": "Fiili kullanıcı adını getir.", "input": "VarlikId = 1681", "output": "SELECT \"AdSoyad\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1681;"}
+{"instruction": "Bir malikin en son edindiği mülkiyet kaydını getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\"=:MalikId ORDER BY \"EdinmeTarihi\" DESC LIMIT 1;"}
+{"instruction": "Belli tarihten önce eklenen teferruatları getir.", "input": "Tarih = '2023-12-01'", "output": "SELECT * FROM varlik.\"Teferruatlar\" WHERE \"EklemeTarihi\" < :Tarih;"}
+{"instruction": "Edinme nedeni 'Bağış' olan taşınmazları listele.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"EdinmeSebebi\" ILIKE :Edinme;"}
+{"instruction": "Garanti kapsamında olan varlıkları getir.", "input": "", "output": "SELECT * FROM varlik.\"Garantiler\" WHERE \"BitisTarihi\" >= NOW();"}
+{"instruction": "Ada numarası 100 üzeri olan parselleri listele.", "input": "", "output": "SELECT * FROM varlik.\"Parseller\" WHERE \"Ada\" > 100;"}
+{"instruction": "Aidat ödemesi bulunan varlıkları listele.", "input": "", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"Aidat\" IS NOT NULL AND \"Aidat\" > 0;"}
+{"instruction": "Bu varlıkta aktif kullanıcı var mı?", "input": "VarlikId = 1274", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1274 AND \"KullaniciTuruId\" IS NOT NULL;"}
+{"instruction": "VRL003 kodlu varlığın taşınmaz kaydını getir.", "input": {"Kod": "VRL003"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Varliklar\" v ON t.\"VarlikId\"=v.\"Id\" WHERE v.\"Kod\" ILIKE :Kod;"}
+{"instruction": "Bitiş tarihi bugün olan sözleşmeleri listele.", "input": "", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE DATE(\"BitisTarihi\") = CURRENT_DATE;"}
+{"instruction": "Bu malikin toplam hisse oranını getir.", "input": "", "output": "SELECT SUM(\"HissePay\"::float/\"HissePayda\") FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\"=:MalikId;"}
+{"instruction": "Bu varlığın devam eden safahatlarını getir.", "input": "VarlikId = 1500", "output": "SELECT s.* FROM varlik.\"Safahatlar\" s JOIN varlik.\"Hukuklar\" h ON h.\"Id\" = s.\"HukukId\" WHERE h.\"VarlikId\" = :VarlikId AND s.\"Durum\" ILIKE :Durum;"}
+{"instruction": "Kullanıcı bilgilerini göster.", "input": "VarlikId = 1049", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1049;"}
+{"instruction": "Sözleşmenin başlangıç tarihini getir.", "input": "VarlikId = 1695", "output": "SELECT \"BaslangicTarihi\" FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 1695;"}
+{"instruction": "Belirli bir firmaya ait tüm varlıkları listele.", "input": "FirmaId = 7", "output": "SELECT v.\"Id\", v.\"Ad\" FROM varlik.\"Varliklar\" v WHERE v.\"FirmaId\" = 7;"}
+{"instruction": "Bu hisseye bağlı takyidatları getir.", "input": "HisseId = 331", "output": "SELECT * FROM varlik.\"Takyidatlar\" WHERE \"HisseId\" = :HisseId;"}
+{"instruction": "Bu bağımsız bölümün brüt alanını getir.", "input": "BBId = 1668", "output": "SELECT \"BrutAlan\" FROM varlik.\"Tasinmazlar\" WHERE \"Id\" = 1668;"}
+{"instruction": "Ankara ilindeki tüm taşınmazları getir.", "input": {"Il": "Ankara"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\"=il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "Bu varlığın malik ID'lerini getir.", "input": "", "output": "SELECT \"MalikId\" FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Metrekare bilgisi eksik eklentileri getir.", "input": "", "output": "SELECT * FROM varlik.\"Eklentiler\" WHERE \"Metrekare\" IS NULL;"}
+{"instruction": "Bu varlığa ait tüm hukuk safahatlarını getir.", "input": "VarlikId = 330", "output": "SELECT * FROM varlik.\"Safahatlar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Pafta numarası A12 olan tüm taşınmazları getir.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"Pafta\" ILIKE :Pafta;"}
+{"instruction": "Bu varlığın aktif sigortalarını getir.", "input": "VarlikId = 1440", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"VarlikId\" = :VarlikId AND \"BitisTarihi\" >= NOW();"}
+{"instruction": "Fiili kullanıcı bilgilerini getir.", "input": "VarlikId = 965", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 965;"}
+{"instruction": "Bu taşınmazın değerleme tarihini getir.", "input": "VarlikId = 1044", "output": "SELECT \"DegerlemeTarihi\" FROM varlik.\"Varliklar\" WHERE \"Id\" = 1044;"}
+{"instruction": "Bu yapının deprem dayanım sınıfını getir.", "input": "YapiId = 744", "output": "SELECT \"DepremDayanimi\" FROM varlik.\"Yapilar\" WHERE \"Id\" = 744;"}
+{"instruction": "2010 sonrası ruhsat alan yapıları listele.", "input": "", "output": "SELECT * FROM varlik.\"Yapilar\" WHERE \"RuhsatTarihi\" >= '2010-01-01';"}
+{"instruction": "Brüt alanı 163 m² üzerindeki taşınmazları getir.", "input": {"Metrekare": 163}, "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"BBBrutYuzOlcumu\">:Metrekare;"}
+{"instruction": "VRL002 kodlu varlığın taşınmaz kaydını getir.", "input": {"Kod": "VRL002"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Varliklar\" v ON t.\"VarlikId\"=v.\"Id\" WHERE v.\"Kod\" ILIKE :Kod;"}
+{"instruction": "Bu taşınmazın pafta numarasını getir.", "input": "VarlikId = 1990", "output": "SELECT \"Pafta\" FROM varlik.\"Tasinmazlar\" WHERE \"VarlikId\" = 1990;"}
+{"instruction": "Son 1 yılda edinilmiş mülkiyetleri listele.", "input": "", "output": "SELECT mu.* FROM varlik.\"Mulkiyetler\" mu WHERE mu.\"EdinmeTarihi\" > now() - INTERVAL '1 year';"}
+{"instruction": "Bu varlığın kullanıcı kayıtlarını getir.", "input": "VarlikId = 108", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 108;"}
+{"instruction": "Son 1 haftada eklenen teferruatları getir.", "input": "", "output": "SELECT * FROM varlik.\"Teferruatlar\" WHERE \"EklemeTarihi\" >= NOW() - INTERVAL '7 days';"}
+{"instruction": "Bu malikin payı 1 olan tüm kayıtlarını getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\" = :MalikId AND \"HissePay\" = 1;"}
+{"instruction": "Soyadı 'Kaya' olan maliklere ait kayıtları getir.", "input": "", "output": "SELECT t.* FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\" = mu.\"MalikId\" JOIN varlik.\"Tasinmazlar\" t ON t.\"VarlikId\" = mu.\"VarlikId\" WHERE m.\"Soyad\" ILIKE :Soyad;"}
+{"instruction": "Bu malikin en erken edindiği kaydı getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\"=:MalikId ORDER BY \"EdinmeTarihi\" ASC LIMIT 1;"}
+{"instruction": "Bu sözleşmeye bağlı tüm varlık ve tip bilgilerini getir.", "input": "SozlesmeId = 1405", "output": "SELECT s.*, v.*, t.* FROM varlik.\"Sozlesmeler\" s JOIN varlik.\"Varliklar\" v ON v.\"Id\" = s.\"VarlikId\" JOIN varlik.\"Tipler\" t ON t.\"Id\" = s.\"SozlesmeTipiId\" WHERE s.\"Id\" = :SozlesmeId;"}
+{"instruction": "Bu hukuk kaydına ait varlığın firma bilgisini getir.", "input": "HukukId = 152", "output": "SELECT f.* FROM varlik.\"Hukuklar\" h JOIN varlik.\"Firmalar\" f ON f.\"Id\" = h.\"FirmaId\" WHERE h.\"Id\" = :HukukId;"}
+{"instruction": "Brüt alanı 187 m² üzerindeki taşınmazları getir.", "input": {"Metrekare": 187}, "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"BBBrutYuzOlcumu\" > :Metrekare;"}
+{"instruction": "Bu firmaya ait aktif takyidatları getir.", "input": "FirmaId = 8", "output": "SELECT * FROM varlik.\"Takyidatlar\" WHERE \"FirmaId\" = :FirmaId AND (\"BitisTarihi\" IS NULL OR \"BitisTarihi\" >= NOW());"}
+{"instruction": "Bu dosyanın bağlı olduğu varlık kaydını getir.", "input": "DosyaId = 522", "output": "SELECT v.* FROM varlik.\"Dosyalar\" d JOIN varlik.\"Varliklar\" v ON v.\"Id\" = d.\"VarlikId\" WHERE d.\"Id\" = :DosyaId;"}
+{"instruction": "Bu mülkiyet kaydının malike ait bilgilerini getir.", "input": "MalikId = 1402", "output": "SELECT m.* FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON mu.\"MalikId\" = m.\"Id\" WHERE mu.\"MalikId\" = 1402;"}
+{"instruction": "Bu malikin sahip olduğu tüm varlıkların sayısını getir.", "input": "", "output": "SELECT COUNT(*) FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\" = :MalikId;"}
+{"instruction": "Son 6 ayda yapılan sözleşmeleri getir.", "input": "", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"BaslangicTarihi\" >= NOW() - INTERVAL '6 months';"}
+{"instruction": "Bu varlığa ait teknik teferruatları getir.", "input": "VarlikId = 150", "output": "SELECT * FROM varlik.\"Teferruatlar\" WHERE \"VarlikId\" = :VarlikId AND \"Aciklama\" ILIKE '%teknik%';"}
+{"instruction": "İzmir ilindeki tüm taşınmazları listele.", "input": {"Il": "İzmir"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\" = il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "Bu varlığın tüm maliklerini hisse oranı ile birlikte getir.", "input": "", "output": "SELECT m.\"Ad\", m.\"Soyad\", (mu.\"HissePay\"::float / mu.\"HissePayda\") AS \"Oran\" FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\" = mu.\"MalikId\" WHERE mu.\"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu varlık için sözleşme geçerli mi?", "input": "VarlikId = 1904", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 1904 AND \"BitisTarihi\" > now();"}
+{"instruction": "Başlangıç tarihi 2023 olan sigortaları listele.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE EXTRACT(YEAR FROM \"BaslangicTarihi\") = :Yil;"}
+{"instruction": "Bu varlığın sigorta kayıtlarını getir.", "input": "VarlikId = 77", "output": "SELECT s.* FROM varlik.\"Sigortalar\" s WHERE s.\"VarlikId\" = :VarlikId;"}
+{"instruction": "Bitişine 1 yıldan az kalan sözleşmeleri getir.", "input": "", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"BitisTarihi\" <= NOW() + INTERVAL '1 year';"}
+{"instruction": "Bu varlıkta kiracı kaydı var mı?", "input": "VarlikId = 645", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 645;"}
+{"instruction": "Net alanı 85 m2’den büyük taşınmazları listele.", "input": "", "output": "SELECT t.\"Id\", t.\"BBNetYuzOlcumu\" FROM varlik.\"Tasinmazlar\" t WHERE t.\"BBNetYuzOlcumu\" > 85;"}
+{"instruction": "İşyeri olarak kullanılan bağımsız bölümleri listele.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"KullanimAmaci\" ILIKE 'İşyeri';"}
+{"instruction": "Taşınmazı kim kullanıyor?", "input": "VarlikId = 1669", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1669;"}
+{"instruction": "Kullanıcı kaydı var mı?", "input": "VarlikId = 1731", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1731;"}
+{"instruction": "Bu varlığın tüm harita türlerini getir.", "input": "VarlikId = 940", "output": "SELECT DISTINCT \"HaritaTuru\" FROM varlik.\"Haritalar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Hisse oranı tam 1 olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"HissePay\"=\"HissePayda\";"}
+{"instruction": "Hiç bakım yapılmamış varlıkları getir.", "input": "Tablolar: Varliklar(Id), Bakimlar(Id, VarlikId); İlişki: Bakimlar.VarlikId = Varliklar.Id", "output": "SELECT v.\"Id\" FROM varlik.\"Varliklar\" v LEFT JOIN varlik.\"Bakimlar\" b ON b.\"VarlikId\" = v.\"Id\" WHERE b.\"Id\" IS NULL;"}
+{"instruction": "Ankara iline bağlı tüm taşınmazları listele.", "input": "", "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\" = il.\"Id\" WHERE il.\"Ad\" ILIKE 'Ankara';"}
+{"instruction": "Sözleşme tarih aralığını getir.", "input": "VarlikId = 1594", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 1594;"}
+{"instruction": "Dolar bazlı sözleşmeleri listele.", "input": "", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"ParaBirimi\" = 'USD';"}
+{"instruction": "Son 15 yılda edinilen kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"EdinmeTarihi\" > NOW() - INTERVAL '15 years';"}
+{"instruction": "Tüm varlıkları listele.", "input": "Tablo: Varliklar(Id, TipId, AltTipId, Kod, Aciklama)", "output": "SELECT \"Id\", \"TipId\", \"AltTipId\", \"Kod\", \"Aciklama\" FROM varlik.\"Varliklar\";"}
+{"instruction": "Altındağ ilçesindeki taşınmazları listele.", "input": {"Ilce": "Altındağ"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "VRL003 kodlu varlığın taşınmaz kaydını getir.", "input": {"Kod": "VRL003"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Varliklar\" v ON t.\"VarlikId\" = v.\"Id\" WHERE v.\"Kod\" ILIKE :Kod;"}
+{"instruction": "Bu kullanıcı tarafından açılan hukuk kayıtlarını getir.", "input": "EkleyenId = 33", "output": "SELECT * FROM varlik.\"Hukuklar\" WHERE \"EkleyenId\" = :EkleyenId;"}
+{"instruction": "Bu bağımsız bölümün net kullanım alanını getir.", "input": "BBId = 1633", "output": "SELECT \"BBNetYuzOlcumu\" FROM varlik.\"Tasinmazlar\" WHERE \"Id\" = 1633;"}
+{"instruction": "Yapı sınıfı 3 olan binaları listele.", "input": "", "output": "SELECT * FROM varlik.\"Yapilar\" WHERE \"YapiSinifi\" = 3;"}
+{"instruction": "Kullanıcı bilgilerini göster.", "input": "VarlikId = 1049", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1049;"}
+{"instruction": "Açıklamasında 'kapsam' geçen sigortaları listele.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"Aciklama\" ILIKE '%kapsam%';"}
+{"instruction": "Toplam payı 50’den büyük varlıkları getir.", "input": "", "output": "SELECT \"VarlikId\" FROM varlik.\"Mulkiyetler\" GROUP BY \"VarlikId\" HAVING SUM(\"HissePay\")>50;"}
+{"instruction": "Edinme yılı 2000’den küçük olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE DATE_PART('year',\"EdinmeTarihi\")<2000;"}
+{"instruction": "Soyadı 'Demir' olan maliklerin kayıtlarını getir.", "input": "", "output": "SELECT * FROM varlik.\"Malikler\" WHERE \"Soyad\" ILIKE :Soyad;"}
+{"instruction": "Payı paydadan küçük olan tüm kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"HissePay\" < \"HissePayda\";"}
+{"instruction": "Bu varlığın fiili kullanıcısını getir.", "input": "VarlikId = 734", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 734;"}
+{"instruction": "Bu malikin sahip olduğu varlıklardan en büyük hisse oranını getir.", "input": "", "output": "SELECT MAX(\"HissePay\"::float/\"HissePayda\") FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\"=:MalikId;"}
+{"instruction": "Ada 67 parsel 81 taşınmaz bilgilerini göster.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"Ada\" = 67 AND \"Parsel\" = 81;"}
+{"instruction": "Hisse oranı %30'dan küçük olan maliklerin kayıtlarını getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE (\"HissePay\"::float / \"HissePayda\") < :Oran;"}
+{"instruction": "Son bir haftada eklenen haritaları getir.", "input": "", "output": "SELECT * FROM varlik.\"Haritalar\" WHERE \"OlusturmaTarihi\" >= NOW() - INTERVAL '7 days';"}
+{"instruction": "Bu bağımsız bölümün kullanım durumunu getir.", "input": "BBId = 274", "output": "SELECT \"KullanimDurumu\" FROM varlik.\"Tasinmazlar\" WHERE \"Id\" = 274;"}
+{"instruction": "Bu firmaya ait aktif sigortaları getir.", "input": "FirmaId = 2", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"FirmaId\" = :FirmaId AND \"BitisTarihi\" >= NOW();"}
+{"instruction": "Son 1 yılda eklenen taşınmazları listele.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"EklemeTarihi\" >= NOW() - INTERVAL '1 year';"}
+{"instruction": "Bu yapının ısıtma türünü getir.", "input": "YapiId = 1433", "output": "SELECT \"IsitmaTuru\" FROM varlik.\"Yapilar\" WHERE \"Id\" = 1433;"}
+{"instruction": "Sözleşme var mı?", "input": "VarlikId = 781", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 781;"}
+{"instruction": "Miras veya satış dışındaki edinme sebeplerini listele.", "input": "", "output": "SELECT DISTINCT \"EdinmeSebebi\" FROM varlik.\"Mulkiyetler\" WHERE \"EdinmeSebebi\" NOT ILIKE ANY(ARRAY['Miras', 'Satış']);"}
+{"instruction": "Bu varlık için toplam payda değerini getir.", "input": "", "output": "SELECT SUM(\"HissePayda\") FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId;"}
+{"instruction": "Belirli bir varlıkta aynı malike ait birden fazla kayıt var mı?", "input": "", "output": "SELECT \"MalikId\", COUNT(*) AS adet FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\" = :VarlikId GROUP BY \"MalikId\" HAVING COUNT(*) > 1;"}
+{"instruction": "Aynı mahallede bulunan tüm yapıları listele.", "input": "MahalleId = 12", "output": "SELECT * FROM varlik.\"Yapilar\" WHERE \"MahalleId\" = 12;"}
+{"instruction": "Bahçelievler mahallesindeki adres bilgilerini getir.", "input": {"Mahalle": "Bahçelievler"}, "output": "SELECT \"Mahalle\",\"Cadde\",\"DisKapiNo\",\"IcKapiNo\" FROM varlik.\"Tasinmazlar\" WHERE \"Mahalle\" ILIKE :Mahalle;"}
+{"instruction": "Bu varlığın edinme tarihlerinin yıllık dağılımını getir.", "input": "", "output": "SELECT DATE_PART('year',\"EdinmeTarihi\") AS yil, COUNT(*) FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId GROUP BY yil ORDER BY yil;"}
+{"instruction": "Bu taşınmazın fiili kullanıcı telefonunu getir.", "input": "VarlikId = 1640", "output": "SELECT \"Telefon\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1640;"}
+{"instruction": "Bu varlıkta aynı paya sahip malik var mı?", "input": "", "output": "SELECT \"HissePay\", COUNT(*) FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\" = :VarlikId GROUP BY \"HissePay\" HAVING COUNT(*) > 1;"}
+{"instruction": "Fiili kullanıcı bilgilerini getir.", "input": "VarlikId = 1987", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1987;"}
+{"instruction": "HukukTuruId = 2 olan en güncel kaydı getir.", "input": "HukukTuruId = 2", "output": "SELECT * FROM varlik.\"Hukuklar\" WHERE \"HukukTuruId\" = :HukukTuruId ORDER BY \"BaslangicTarihi\" DESC LIMIT 1;"}
+{"instruction": "Taşınmazın kullanıcı telefonunu getir.", "input": "VarlikId = 462", "output": "SELECT \"Telefon\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 462;"}
+{"instruction": "Toplam hisse paydası 20 olan varlıkları listele.", "input": "", "output": "SELECT \"VarlikId\", SUM(\"HissePayda\") AS toplam FROM varlik.\"Mulkiyetler\" GROUP BY \"VarlikId\" HAVING SUM(\"HissePayda\") = :Payda;"}
+{"instruction": "Bu varlığın en güncel sözleşmesini getir.", "input": "VarlikId = 552", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = :VarlikId ORDER BY \"BaslangicTarihi\" DESC LIMIT 1;"}
+{"instruction": "Bu varlığın kullanım kayıtlarını getir.", "input": "VarlikId = 1359", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1359;"}
+{"instruction": "Bu kullanıcının eklediği tüm dosyaları getir.", "input": "EkleyenId = 11", "output": "SELECT * FROM varlik.\"Dosyalar\" WHERE \"EkleyenId\" = :EkleyenId;"}
+{"instruction": "Taşınmazda fiili kullanıcı mevcut mu?", "input": "VarlikId = 1766", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1766;"}
+{"instruction": "Bu varlıktaki oranı 0.2 olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId AND (\"HissePay\"::float/\"HissePayda\")=0.2;"}
+{"instruction": "Payda 100’den küçük olan tüm kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"HissePayda\" < 100;"}
+{"instruction": "Ayrancı mahallesindeki adres bilgilerini getir.", "input": {"Mahalle": "Ayrancı"}, "output": "SELECT \"Mahalle\",\"Cadde\",\"DisKapiNo\",\"IcKapiNo\" FROM varlik.\"Tasinmazlar\" WHERE \"Mahalle\" ILIKE :Mahalle;"}
+{"instruction": "Bu hukuk dosyasının en son safahat açıklamasını getir.", "input": "HukukId = 51", "output": "SELECT \"Aciklama\" FROM varlik.\"Safahatlar\" WHERE \"HukukId\" = :HukukId ORDER BY \"SafahatTarihi\" DESC LIMIT 1;"}
+{"instruction": "Haritaların sadece id ve tür bilgilerini getir.", "input": "", "output": "SELECT \"Id\", \"HaritaTuruId\" FROM varlik.\"Haritalar\";"}
+{"instruction": "Yapım yılı 2000'den eski olan tüm yapıları listele.", "input": "", "output": "SELECT * FROM varlik.\"Yapilar\" WHERE \"YapimYili\" < 2000;"}
+{"instruction": "Soyadı Çelik olan maliklerin varlıkların toplam hisse paylarını getir.", "input": "", "output": "SELECT m.\"Ad\", m.\"Soyad\", SUM(mu.\"HissePay\") AS toplam_pay FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\" = mu.\"MalikId\" WHERE m.\"Soyad\" ILIKE :Soyad GROUP BY m.\"Id\";"}
+{"instruction": "Pay değeri 0 olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"HissePay\"=0;"}
+{"instruction": "10'dan fazla bağımsız bölümü olan yapıları listele.", "input": "", "output": "SELECT \"YapiId\", COUNT(*) AS BB_Sayisi FROM varlik.\"Tasinmazlar\" GROUP BY \"YapiId\" HAVING COUNT(*) > 10;"}
+{"instruction": "Kullanıcının telefon bilgisi nedir?", "input": "VarlikId = 1822", "output": "SELECT \"Telefon\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1822;"}
+{"instruction": "Bu malikin sisteme giriş yapan kullanıcı olup olmadığını kontrol et.", "input": "MalikId = 501", "output": "SELECT * FROM varlik.\"Kullanicilar\" k WHERE k.\"Id\" = (SELECT \"EkleyenId\" FROM varlik.\"Malikler\" WHERE \"Id\" = 501);"}
+{"instruction": "Kapatılmış hukuk kayıtlarını getir.", "input": "", "output": "SELECT * FROM varlik.\"Hukuklar\" WHERE \"Durum\" ILIKE :Durum;"}
+{"instruction": "Bu malikin hangi kullanıcı tarafından eklendiğini getir.", "input": "MalikId = 1280", "output": "SELECT k.\"AdSoyad\" FROM varlik.\"Malikler\" m JOIN varlik.\"Kullanicilar\" k ON m.\"EkleyenId\" = k.\"Id\" WHERE m.\"Id\" = 1280;"}
+{"instruction": "Çankaya ilçesindeki taşınmazları listele.", "input": {"Ilce": "Çankaya"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\"=i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Bu varlıkta kiracı kaydı var mı?", "input": "VarlikId = 1511", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1511 AND \"KullaniciTuruId\" IS NOT NULL;"}
+{"instruction": "Belirli anahtar kelimeyi içeren hukuk açıklamalarını getir.", "input": "", "output": "SELECT * FROM varlik.\"Hukuklar\" WHERE \"Aciklama\" ILIKE '%' || :Kelime || '%' ;"}
+{"instruction": "Çankaya ilçesindeki taşınmazları listele.", "input": {"Ilce": "Çankaya"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\"=i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Varlığın kullanıcı türünü getir.", "input": "VarlikId = 873", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 873;"}
+{"instruction": "Bu firmaya ait PDF dosyalarını getir.", "input": "FirmaId = 10", "output": "SELECT * FROM varlik.\"Dosyalar\" WHERE \"FirmaId\" = :FirmaId AND \"DosyaAdi\" ILIKE '%.pdf';"}
+{"instruction": "Bu yapının kullanım durumunu getir.", "input": "YapiId = 612", "output": "SELECT \"KullanimDurumu\" FROM varlik.\"Yapilar\" WHERE \"Id\" = 612;"}
+{"instruction": "Bu varlığın haritalarını oluşturma tarihine göre ters sırayla getir.", "input": "VarlikId = 1555", "output": "SELECT * FROM varlik.\"Haritalar\" WHERE \"VarlikId\" = :VarlikId ORDER BY \"OlusturmaTarihi\" DESC;"}
+{"instruction": "Tapu niteliği 'Arsa' olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"TapuNiteligi\" ILIKE 'Arsa';"}
+{"instruction": "Mamak ilçesindeki taşınmazları listele.", "input": {"Ilce": "Mamak"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Bu varlığa ait malik listesini getir.", "input": "VarlikId = 1201", "output": "SELECT m.\"Ad\", m.\"Soyad\", mu.\"HissePay\", mu.\"HissePayda\" FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON mu.\"MalikId\" = m.\"Id\" WHERE mu.\"VarlikId\" = 1201;"}
+{"instruction": "Kullanım durumu boş olan taşınmazları listele.", "input": "", "output": "SELECT * FROM varlik.\"Yapilar\" WHERE \"KullanimDurumu\" ILIKE 'Boş';"}
+{"instruction": "Bu varlığa ait harita kayıtlarını getir.", "input": "VarlikId = 512", "output": "SELECT h.* FROM varlik.\"Haritalar\" h WHERE h.\"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu varlığa ait poliçe numaralarını getir.", "input": "VarlikId = 333", "output": "SELECT \"PoliçeNo\" FROM varlik.\"Sigortalar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu fotoğrafı ekleyen kullanıcıyı getir.", "input": "FotoId = 550", "output": "SELECT k.* FROM varlik.\"Fotolar\" f JOIN varlik.\"Kullanicilar\" k ON k.\"Id\" = f.\"EkleyenId\" WHERE f.\"Id\" = :FotoId;"}
+{"instruction": "Belirli kullanıcı tarafından eklenen varlıkları listele.", "input": "KullaniciId = 42", "output": "SELECT v.\"Id\", v.\"Ad\" FROM varlik.\"Varliklar\" v WHERE v.\"EkleyenId\" = 42;"}
+{"instruction": "Bu varlığın oluşturulmuş tüm haritalarının sayısını getir.", "input": "VarlikId = 701", "output": "SELECT COUNT(*) FROM varlik.\"Haritalar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "İmar planı türündeki haritaları listele.", "input": "", "output": "SELECT * FROM varlik.\"Haritalar\" WHERE \"HaritaTuru\" ILIKE 'İmar';"}
+{"instruction": "Bu varlık için harita kaydı var mı?", "input": "VarlikId = 190", "output": "SELECT EXISTS(SELECT 1 FROM varlik.\"Haritalar\" WHERE \"VarlikId\" = :VarlikId);"}
+{"instruction": "Belirli bir malike ait hisse oranı en yüksek varlığı getir.", "input": "", "output": "SELECT mu.\"VarlikId\", (mu.\"HissePay\"::float / mu.\"HissePayda\") AS oran FROM varlik.\"Mulkiyetler\" mu WHERE mu.\"MalikId\" = :MalikId ORDER BY oran DESC LIMIT 1;"}
+{"instruction": "Kelime içeren safahat açıklamalarını getir.", "input": "", "output": "SELECT * FROM varlik.\"Safahatlar\" WHERE \"Aciklama\" ILIKE '%' || :Kelime || '%' ;"}
+{"instruction": "Bu mülkiyet kaydının malik bilgilerini getir.", "input": "HisseId = 1334", "output": "SELECT m.* FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON mu.\"MalikId\" = m.\"Id\" WHERE mu.\"Id\" = :HisseId;"}
+{"instruction": "Bu varlığa ait en yeni ruhsatı getir.", "input": "VarlikId = 640", "output": "SELECT * FROM varlik.\"Ruhsatlar\" WHERE \"VarlikId\" = :VarlikId ORDER BY \"RuhsatTarihi\" DESC LIMIT 1;"}
+{"instruction": "Bu varlığın eklentilerini getir.", "input": "VarlikId = 702", "output": "SELECT * FROM varlik.\"Eklentiler\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu varlık için en eski dosyayı getir.", "input": "VarlikId = 620", "output": "SELECT * FROM varlik.\"Dosyalar\" WHERE \"VarlikId\" = :VarlikId ORDER BY \"EklemeTarihi\" ASC LIMIT 1;"}
+{"instruction": "Garanti tipi boş olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Garantiler\" WHERE \"GarantiTipiId\" IS NULL;"}
+{"instruction": "Edinme tarihi bu ay olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE DATE_PART('month',\"EdinmeTarihi\")=DATE_PART('month',NOW());"}
+{"instruction": "VRL001 kodlu varlığın taşınmaz kaydını getir.", "input": {"Kod": "VRL001"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Varliklar\" v ON t.\"VarlikId\" = v.\"Id\" WHERE v.\"Kod\" ILIKE :Kod;"}
+{"instruction": "Bu taşınmazın tapu türü bilgisini getir.", "input": "TasinmazId = 1771", "output": "SELECT t.\"TapuTuruId\" FROM varlik.\"Tasinmazlar\" t WHERE t.\"Id\" = 1771;"}
+{"instruction": "Yenimahalle ilçesindeki taşınmazları listele.", "input": {"Ilce": "Yenimahalle"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Hisse payı aynı olan malik çiftlerini listele.", "input": "", "output": "SELECT a.\"MalikId\", b.\"MalikId\", a.\"HissePay\" FROM varlik.\"Mulkiyetler\" a JOIN varlik.\"Mulkiyetler\" b ON a.\"HissePay\" = b.\"HissePay\" AND a.\"MalikId\" <> b.\"MalikId\";"}
+{"instruction": "Ankara ilindeki taşınmazları listele.", "input": "Tablolar: Tasinmazlar(Id, IlId, Mahalle, Ada, Parsel), Iller(Id, Ad); İlişki: Tasinmazlar.IlId = Iller.Id", "output": "SELECT t.\"Id\", t.\"Mahalle\", t.\"Ada\", t.\"Parsel\" FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\" = il.\"Id\" WHERE il.\"Ad\" = 'Ankara';"}
+{"instruction": "2022 yılında edinilen kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE DATE_PART('year',\"EdinmeTarihi\")=2022;"}
+{"instruction": "Bu yapının otopark kapasitesini getir.", "input": "YapiId = 1440", "output": "SELECT \"OtoparkKapasitesi\" FROM varlik.\"Yapilar\" WHERE \"Id\" = 1440;"}
+{"instruction": "Çelik konstrüksiyon yapıları listele.", "input": "", "output": "SELECT * FROM varlik.\"Yapilar\" WHERE \"YapiMalzemesi\" ILIKE 'Çelik';"}
+{"instruction": "Etimesgut ilçesindeki tüm taşınmaz kayıtlarını getir.", "input": {"Ilce": "Etimesgut"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Bu varlığa ait dosyaları getir.", "input": "VarlikId = 310", "output": "SELECT d.* FROM varlik.\"Dosyalar\" d WHERE d.\"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu varlığın tüm maliklerini oran büyükten küçüğe sırala.", "input": "", "output": "SELECT m.\"Ad\", m.\"Soyad\", (\"HissePay\"::float/\"HissePayda\") AS oran FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\"=mu.\"MalikId\" WHERE mu.\"VarlikId\"=:VarlikId ORDER BY oran DESC;"}
+{"instruction": "10 m²’den büyük eklentileri listele.", "input": "", "output": "SELECT * FROM varlik.\"Eklentiler\" WHERE \"Metrekare\" > 10;"}
+{"instruction": "Pay değeri paydanın yarısından fazla olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"HissePay\">(\"HissePayda\"/2);"}
+{"instruction": "Payda oranı 1 olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"HissePayda\"=1;"}
+{"instruction": "Sigorta tipi Konut olan poliçeleri listele.", "input": "SigortaTipiId = 12", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"SigortaTipiId\" = :SigortaTipiId;"}
+{"instruction": "Bu taşınmazın ısıtma gider türünü getir.", "input": "VarlikId = 1190", "output": "SELECT \"IsitmaGiderTuru\" FROM varlik.\"Tasinmazlar\" WHERE \"VarlikId\" = 1190;"}
+{"instruction": "Kullanım amacı Konut olan bağımsız bölümleri listele.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"KullanimAmaci\" ILIKE 'Konut';"}
+{"instruction": "İpotekli varlıkları listele.", "input": "TakyidatTuruId = 5", "output": "SELECT * FROM varlik.\"Takyidatlar\" WHERE \"TakyidatTuruId\" = :TakyidatTuruId;"}
+{"instruction": "Taşınmazın kullanıcı bilgisini göster.", "input": "VarlikId = 1152", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1152;"}
+{"instruction": "Bu varlığın mevcut kullanıcı bilgilerini getir.", "input": "VarlikId = 201", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 201;"}
+{"instruction": "Sözleşme numarası boş olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"SozlesmeNo\" IS NULL OR \"SozlesmeNo\" = '';"}
+{"instruction": "Bu taşınmazın güncel kullanıcı bilgilerini getir.", "input": "VarlikId = 1144", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1144;"}
+{"instruction": "Sigorta süresi bitmiş varlıkları listele.", "input": "Tablo: Sigortalar(Id, VarlikId, BitisTarihi); Koşul: BitisTarihi < bugünün tarihi", "output": "SELECT s.\"VarlikId\", s.\"BitisTarihi\" FROM varlik.\"Sigortalar\" s WHERE s.\"BitisTarihi\" < NOW();"}
+{"instruction": "Bu taşınmazın değerleme türünü getir.", "input": "VarlikId = 1032", "output": "SELECT \"DegerlemeTuru\" FROM varlik.\"Varliklar\" WHERE \"Id\" = 1032;"}
+{"instruction": "Bu varlığın malik sayısını getir.", "input": "VarlikId = 884", "output": "SELECT COUNT(*) FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\" = 884;"}
+{"instruction": "Bu varlık şu an kimde?", "input": "VarlikId = 1715", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1715;"}
+{"instruction": "Net alanı 100 m2’den büyük taşınmazları getir.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"NetAlan\" > 100;"}
+{"instruction": "Bu yapının bulunduğu mahalleyi getir.", "input": "YapiId = 559", "output": "SELECT m.\"Ad\" FROM varlik.\"Yapilar\" y JOIN varlik.\"Mahalleler\" m ON y.\"MahalleId\" = m.\"Id\" WHERE y.\"Id\" = 559;"}
+{"instruction": "Bu varlıkta pay/payda oranı %40 üzeri maliklerin listesini getir.", "input": "", "output": "SELECT m.\"Ad\",m.\"Soyad\",(mu.\"HissePay\"::float/mu.\"HissePayda\") AS oran FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\"=mu.\"MalikId\" WHERE mu.\"VarlikId\"=:VarlikId AND (mu.\"HissePay\"::float/mu.\"HissePayda\")>0.4;"}
+{"instruction": "Asansörsüz binaları listele.", "input": "", "output": "SELECT * FROM varlik.\"Yapilar\" WHERE \"AsansorVarMi\" = FALSE;"}
+{"instruction": "Bu varlığın sözleşme bilgilerini listele.", "input": "VarlikId = 1022", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 1022;"}
+{"instruction": "Bu varlığa ait en eski sigortayı getir.", "input": "VarlikId = 1544", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"VarlikId\" = :VarlikId ORDER BY \"BaslangicTarihi\" ASC LIMIT 1;"}
+{"instruction": "Kullanıcı türünü getir.", "input": "VarlikId = 1216", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1216;"}
+{"instruction": "Bu taşınmazın oluşturulma kaydını ekleyen kullanıcıyı getir.", "input": "TasinmazId = 11", "output": "SELECT k.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Kullanicilar\" k ON k.\"Id\" = t.\"EkleyenId\" WHERE t.\"Id\" = :TasinmazId;"}
+{"instruction": "Çankaya ilçesindeki taşınmazları listele.", "input": {"Ilce": "Çankaya"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Sözleşmenin tarih aralığını getir.", "input": "VarlikId = 1462", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 1462;"}
+{"instruction": "Malik ID’si belirtilen kişinin pay/payda toplam oranını getir.", "input": "", "output": "SELECT SUM(\"HissePay\"::float/\"HissePayda\") FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\"=:MalikId;"}
+{"instruction": "Arsa payı 50'den büyük olan bağımsız bölümleri getir.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"ArsaPay\" > 50;"}
+{"instruction": "Soyadı Demir olan maliklerin tüm varlıklarını getir.", "input": "", "output": "SELECT v.* FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON mu.\"MalikId\" = m.\"Id\" JOIN varlik.\"Varliklar\" v ON mu.\"VarlikId\" = v.\"Id\" WHERE m.\"Soyad\" ILIKE :Soyad;"}
+{"instruction": "Bu varlıktaki tüm hisse pay/payda oranlarını getir.", "input": "", "output": "SELECT (\"HissePay\"::float/\"HissePayda\") AS oran FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId;"}
+{"instruction": "Bu malikin en küçük payını getir.", "input": "", "output": "SELECT MIN(\"HissePay\") FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\"=:MalikId;"}
+{"instruction": "Bu hukuki süreçte yer alan varlığın tip bilgisini getir.", "input": "HukukId = 644", "output": "SELECT tp.* FROM varlik.\"Hukuklar\" h JOIN varlik.\"Varliklar\" v ON v.\"Id\" = h.\"VarlikId\" JOIN varlik.\"Tipler\" tp ON tp.\"Id\" = v.\"TipId\" WHERE h.\"Id\" = :HukukId;"}
+{"instruction": "Bedeli 100.000 TL'den büyük sözleşmeleri listele.", "input": "", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"Bedel\" > 100000;"}
+{"instruction": "Ada 500 parsel 22 taşınmaz kaydını göster.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"Ada\" = 500 AND \"Parsel\" = 22;"}
+{"instruction": "İstanbul Çankaya ilçesindeki taşınmazları listele.", "input": "Tablolar: Tasinmazlar(Id, IlId, IlceId, Mahalle, Ada, Parsel), Iller(Id, Ad), Ilceler(Id, Ad, IlId); İlişkiler: Tasinmazlar.IlId = Iller.Id, Tasinmazlar.IlceId = Ilceler.Id", "output": "SELECT t.\"Id\", t.\"Mahalle\", t.\"Ada\", t.\"Parsel\" FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\" = il.\"Id\" JOIN varlik.\"Ilceler\" ic ON t.\"IlceId\" = ic.\"Id\" WHERE il.\"Ad\" = 'İstanbul' AND ic.\"Ad\" = 'Çankaya';"}
+{"instruction": "Aynı yapıya bağlı bağımsız bölümleri listele.", "input": "YapiId = 299", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"YapiId\" = 299;"}
+{"instruction": "Bu taşınmazın mevcut kullanıcısını listele.", "input": "VarlikId = 1711", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1711;"}
+{"instruction": "Bu dosyayı ekleyen kullanıcıyı getir.", "input": "DosyaId = 44", "output": "SELECT k.* FROM varlik.\"Dosyalar\" d JOIN varlik.\"Kullanicilar\" k ON k.\"Id\" = d.\"EkleyenId\" WHERE d.\"Id\" = :DosyaId;"}
+{"instruction": "Bu varlığın hukuk kayıtlarını listele.", "input": "VarlikId = 441", "output": "SELECT h.* FROM varlik.\"Hukuklar\" h WHERE h.\"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu mülkiyet kaydının ait olduğu varlığı getir.", "input": "MulkiyetId = 811", "output": "SELECT v.* FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Varliklar\" v ON v.\"Id\" = mu.\"VarlikId\" WHERE mu.\"Id\" = :MulkiyetId;"}
+{"instruction": "Belirli bir varlığa ait yapı özelliklerini listele.", "input": "Tablo: Yapilar(Id, VarlikId, KatNo, KullanimTuru, YasalKullanimAlani, MevcutKullanimAlani)", "output": "SELECT y.\"KatNo\", y.\"KullanimTuru\", y.\"YasalKullanimAlani\", y.\"MevcutKullanimAlani\" FROM varlik.\"Yapilar\" y WHERE y.\"VarlikId\" = 123;"}
+{"instruction": "Mamak ilçesindeki taşınmazları listele.", "input": {"Ilce": "Mamak"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Takyidat türü ipotek olan kayıtları getir.", "input": "", "output": "SELECT t.* FROM varlik.\"Takyidatlar\" t WHERE t.\"TakyidatTuruId\" = :IpotekTipId;"}
+{"instruction": "Hukuk tipi belirtilen ID’ye eşit olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Hukuklar\" WHERE \"HukukTuruId\" = :TipId;"}
+{"instruction": "Bu kullanıcı tarafından eklenen haritaları getir.", "input": "EkleyenId = 77", "output": "SELECT * FROM varlik.\"Haritalar\" WHERE \"EkleyenId\" = :EkleyenId;"}
+{"instruction": "Bu varlık şu anda fiilen kimde?", "input": "VarlikId = 722", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 722;"}
+{"instruction": "Bitmiş sigorta poliçelerini listele.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"BitisTarihi\" < NOW();"}
+{"instruction": "Paydası 8 olan hissedarları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"HissePayda\" = 8;"}
+{"instruction": "Bu varlığın sözleşme detaylarını getir.", "input": "VarlikId = 642", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 642;"}
+{"instruction": "Bu bağımsız bölümün yapı sınıfını getir.", "input": "BBId = 1809", "output": "SELECT y.\"YapiSinifi\" FROM varlik.\"Yapilar\" y JOIN varlik.\"Tasinmazlar\" t ON t.\"YapiId\" = y.\"Id\" WHERE t.\"Id\" = 1809;"}
+{"instruction": "Bu varlığa ait depo ve garaj eklentilerini getir.", "input": "VarlikId = 455", "output": "SELECT * FROM varlik.\"Eklentiler\" WHERE \"VarlikId\" = :VarlikId AND \"EklentiTuru\" IN ('Depo','Garaj');"}
+{"instruction": "Bu varlıktaki maliklerin ad-soyad ve toplam paylarını getir.", "input": "", "output": "SELECT m.\"Ad\", m.\"Soyad\", mu.\"HissePay\" FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\" = mu.\"MalikId\" WHERE mu.\"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu malikin sahip olduğu tüm varlıkları listele.", "input": "", "output": "SELECT DISTINCT \"VarlikId\" FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\"=:MalikId;"}
+{"instruction": "Bu sigorta kaydının poliçe tarih aralığını getir.", "input": "SigortaId = 530", "output": "SELECT \"BaslangicTarihi\", \"BitisTarihi\" FROM varlik.\"Sigortalar\" WHERE \"Id\" = :SigortaId;"}
+{"instruction": "Bu yapının dış cephe kaplama türünü getir.", "input": "YapiId = 591", "output": "SELECT \"DisCepheKaplama\" FROM varlik.\"Yapilar\" WHERE \"Id\" = 591;"}
+{"instruction": "Bu varlığın en uzun süreli sözleşmesini getir.", "input": "VarlikId = 1999", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = :VarlikId ORDER BY (\"BitisTarihi\" - \"BaslangicTarihi\") DESC LIMIT 1;"}
+{"instruction": "İstanbul ilindeki tüm taşınmazları getir.", "input": {"Il": "İstanbul"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\"=il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "Yapı sınıfı 3 olan tüm yapıları listele.", "input": "", "output": "SELECT * FROM varlik.\"Yapilar\" WHERE \"YapiSinifi\" = 3;"}
+{"instruction": "Bu malikin tüm oran toplamını getir.", "input": "", "output": "SELECT SUM(\"HissePay\"::float/\"HissePayda\") FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\"=:MalikId;"}
+{"instruction": "İzmir ilindeki tüm taşınmazları getir.", "input": {"Il": "İzmir"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\"=il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "Bu yapının bulunduğu ilçeyi getir.", "input": "YapiId = 1499", "output": "SELECT ilc.\"Ad\" FROM varlik.\"Yapilar\" y JOIN varlik.\"Ilceler\" ilc ON y.\"IlceId\" = ilc.\"Id\" WHERE y.\"Id\" = 1499;"}
+{"instruction": "Hisse oranı %50 üzerinde olan kayıtları listele.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE (\"HissePay\"::float / \"HissePayda\") > 0.5;"}
+{"instruction": "Soyadı Çelik olan maliklerin tüm varlıklarını listele.", "input": "", "output": "SELECT t.* FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\" = mu.\"MalikId\" JOIN varlik.\"Tasinmazlar\" t ON t.\"VarlikId\" = mu.\"VarlikId\" WHERE m.\"Soyad\" ILIKE :Soyad;"}
+{"instruction": "Bu malike ait açıklama notunu getir.", "input": "MalikId = 300", "output": "SELECT \"Aciklama\" FROM varlik.\"Malikler\" WHERE \"Id\" = 300;"}
+{"instruction": "Bu firmaya ait takyidat kayıtlarını getir.", "input": "FirmaId = 3", "output": "SELECT * FROM varlik.\"Takyidatlar\" WHERE \"FirmaId\" = :FirmaId;"}
+{"instruction": "Bu varlığa ait payı en düşük malik kaydını getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId ORDER BY \"HissePay\" ASC LIMIT 1;"}
+{"instruction": "Bu varlığın en güncel 3 harita kaydını getir.", "input": "VarlikId = 310", "output": "SELECT * FROM varlik.\"Haritalar\" WHERE \"VarlikId\" = :VarlikId ORDER BY \"OlusturmaTarihi\" DESC LIMIT 3;"}
+{"instruction": "Kapı No 2 olan bağımsız bölümü getir.", "input": "", "output": "SELECT * FROM varlik.\"BagimsizBolumler\" WHERE \"KapiNo\" = 2;"}
+{"instruction": "İstanbul ilindeki taşınmazları getir.", "input": {"Il": "İstanbul"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\"=il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "İstanbul ilindeki taşınmazları getir.", "input": {"Il": "İstanbul"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\" = il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "Bu varlık için kaç tane hukuk kaydı var?", "input": "VarlikId = 331", "output": "SELECT COUNT(*) FROM varlik.\"Hukuklar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu bağımsız bölümün metrekaresini getir.", "input": "BBId = 667", "output": "SELECT \"Metrekare\" FROM varlik.\"Tasinmazlar\" WHERE \"Id\" = 667;"}
+{"instruction": "Fiili kullanıcıyı göster.", "input": "VarlikId = 1430", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1430;"}
+{"instruction": "Çankaya ilçesindeki taşınmazları listele.", "input": {"Ilce": "Çankaya"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Tapu malik sayısı birden fazla olan varlıkları listele.", "input": "", "output": "SELECT \"VarlikId\", COUNT(*) FROM varlik.\"Mulkiyetler\" GROUP BY \"VarlikId\" HAVING COUNT(*) > 1;"}
+{"instruction": "En çok hisseye sahip 10 maliki getir.", "input": "", "output": "SELECT \"MalikId\", SUM(\"HissePay\") AS toplam FROM varlik.\"Mulkiyetler\" GROUP BY \"MalikId\" ORDER BY toplam DESC LIMIT 10;"}
+{"instruction": "Bu varlıktaki maliklerden payı en düşük olanı getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\" = :VarlikId ORDER BY \"HissePay\" ASC LIMIT 1;"}
+{"instruction": "Ankara ilindeki tüm taşınmazları getir.", "input": {"Il": "Ankara"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\"=il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "Belirli bir varlığın değerleme kayıtlarını getir.", "input": "Tablo: Degerlemeler(Id, VarlikId, ToplamDeger, RaporTarihi)", "output": "SELECT d.\"Id\", d.\"ToplamDeger\", d.\"RaporTarihi\" FROM varlik.\"Degerlemeler\" d WHERE d.\"VarlikId\" = 123;"}
+{"instruction": "Taşınmazı kim kullanmaktadır?", "input": "VarlikId = 776", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 776;"}
+{"instruction": "Açıklamasında 'yenileme' geçen teferruatları getir.", "input": "", "output": "SELECT * FROM varlik.\"Teferruatlar\" WHERE \"Aciklama\" ILIKE '%yenileme%';"}
+{"instruction": "Payda değeri 50’den büyük olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"HissePayda\" > 50;"}
+{"instruction": "Malik bazında sahip olduğu toplam varlık sayısını getir.", "input": "", "output": "SELECT \"MalikId\", COUNT(*) AS adet FROM varlik.\"Mulkiyetler\" GROUP BY \"MalikId\";"}
+{"instruction": "Varlığın toplam hisse paydasını getir.", "input": "", "output": "SELECT MAX(\"HissePayda\") AS \"ToplamPayda\" FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "376 m² üzerindeki taşınmazları listele.", "input": {"Metrekare": 376}, "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"BBBrutYuzOlcumu\" > :Metrekare;"}
+{"instruction": "Bu taşınmazın hukuki süreçlerini getir.", "input": "TasinmazId = 199", "output": "SELECT h.* FROM varlik.\"Hukuklar\" h WHERE h.\"VarlikId\" = (SELECT \"VarlikId\" FROM varlik.\"Tasinmazlar\" WHERE \"Id\" = :TasinmazId);"}
+{"instruction": "Bu varlık için 2015 üzeri ruhsatları getir.", "input": "VarlikId = 981", "output": "SELECT * FROM varlik.\"Ruhsatlar\" WHERE \"VarlikId\" = :VarlikId AND \"RuhsatTarihi\" >= '2015-01-01';"}
+{"instruction": "Bu yapının çatı tipini getir.", "input": "YapiId = 311", "output": "SELECT \"CatiTuru\" FROM varlik.\"Yapilar\" WHERE \"Id\" = 311;"}
+{"instruction": "İlçesi Keçiören olan ve brüt alanı 120 üstü taşınmazları getir.", "input": "", "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" ilce ON ilce.\"Id\" = t.\"IlceId\" WHERE ilce.\"Ad\" ILIKE :Ilce AND t.\"BBBrutYuzOlcumu\" > :Metrekare;"}
+{"instruction": "Bu varlığın takyidatlarını getir.", "input": "VarlikId = 1022", "output": "SELECT * FROM varlik.\"Takyidatlar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Brüt alanı 419 m² üzerindeki taşınmazları getir.", "input": {"Metrekare": 419}, "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"BBBrutYuzOlcumu\" > :Metrekare;"}
+{"instruction": "Güncel kullanıcı kaydını listele.", "input": "VarlikId = 1538", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1538;"}
+{"instruction": "Edinme tarihi 2020 sonrası olan mülkiyetleri listele.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"EdinmeTarihi\" > :Tarih;"}
+{"instruction": "Fiili kullanıcıyı göster.", "input": "VarlikId = 1430", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1430;"}
+{"instruction": "Taşınmazın güncel kullanıcı durumunu getir.", "input": "VarlikId = 1542", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1542;"}
+{"instruction": "Bu yapının toplam bağımsız bölüm sayısını getir.", "input": "YapiId = 622", "output": "SELECT COUNT(*) FROM varlik.\"Tasinmazlar\" WHERE \"YapiId\" = 622;"}
+{"instruction": "Hissedarları paya göre sırala.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" ORDER BY \"HissePay\" DESC;"}
+{"instruction": "Etimesgut ilçesindeki taşınmazları listele.", "input": {"Ilce": "Etimesgut"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Poliçe başlangıç tarihine göre sırala.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" ORDER BY \"BaslangicTarihi\";"}
+{"instruction": "Kodu VRL003 olan varlığa bağlı taşınmaz kayıtlarını getir.", "input": {"Kod": "VRL003"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Varliklar\" v ON t.\"VarlikId\" = v.\"Id\" WHERE v.\"Kod\" ILIKE :Kod;"}
+{"instruction": "Metrekare değeri 5–20 arası olan eklentileri listele.", "input": "", "output": "SELECT * FROM varlik.\"Eklentiler\" WHERE \"Metrekare\" BETWEEN 5 AND 20;"}
+{"instruction": "Bu malikin toplam hisse payını getir.", "input": "", "output": "SELECT SUM(\"HissePay\") FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\" = :MalikId;"}
+{"instruction": "Belirli bir kullanıcı tarafından eklenen varlıkları listele.", "input": "Tablo: Varliklar(Id, Kod, EkleyenId)", "output": "SELECT v.\"Id\", v.\"Kod\" FROM varlik.\"Varliklar\" v WHERE v.\"EkleyenId\" = 10;"}
+{"instruction": "Yenimahalle ilçesindeki taşınmazları listele.", "input": {"Ilce": "Yenimahalle"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Bu sözleşmenin başlangıç ve bitiş tarihlerini getir.", "input": "SozlesmeId = 448", "output": "SELECT \"BaslangicTarihi\", \"BitisTarihi\" FROM varlik.\"Sozlesmeler\" WHERE \"Id\" = :SozlesmeId;"}
+{"instruction": "Güncel kullanıcı kaydını listele.", "input": "VarlikId = 1538", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1538;"}
+{"instruction": "Adı 'Fatma' olan maliklerin toplam varlık sayısını getir.", "input": "", "output": "SELECT COUNT(*) FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\"=mu.\"MalikId\" WHERE m.\"Ad\" ILIKE 'Fatma';"}
+{"instruction": "Bu varlığın sözleşme başlangıç tarihlerini getir.", "input": "VarlikId = 141", "output": "SELECT \"BaslangicTarihi\" FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Kapı No 101 olan bağımsız bölümü bul.", "input": "", "output": "SELECT * FROM varlik.\"BagimsizBolumler\" WHERE \"KapiNo\" = 101;"}
+{"instruction": "Bu varlığa ait aktif sigortaları getir.", "input": "VarlikId = 442", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"VarlikId\" = :VarlikId AND (\"BitisTarihi\" IS NULL OR \"BitisTarihi\" >= NOW());"}
+{"instruction": "Taşınmazın fiili kullanıcı adı ve numarasını getir.", "input": "VarlikId = 1588", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1588;"}
+{"instruction": "Bu varlığın en küçük oranlı payını getir.", "input": "", "output": "SELECT MIN(\"HissePay\"::float/\"HissePayda\") FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId;"}
+{"instruction": "Bu bağımsız bölümün arsa payını getir.", "input": "BBId = 241", "output": "SELECT \"ArsaPay\" FROM varlik.\"Tasinmazlar\" WHERE \"Id\" = 241;"}
+{"instruction": "Bu teferruatın bağlı olduğu varlık kaydını getir.", "input": "TeferruatId = 500", "output": "SELECT v.* FROM varlik.\"Teferruatlar\" t JOIN varlik.\"Varliklar\" v ON v.\"Id\" = t.\"VarlikId\" WHERE t.\"Id\" = :TeferruatId;"}
+{"instruction": "Bitisine 1 yıldan az kalan sigortaları getir.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"BitisTarihi\" <= NOW() + INTERVAL '1 year';"}
+{"instruction": "Aktif kullanıcı kayıtlarını getir.", "input": "VarlikId = 777", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 777 AND \"KullaniciTuruId\" IS NOT NULL;"}
+{"instruction": "Bu varlığın en düşük payda değerini getir.", "input": "", "output": "SELECT MIN(\"HissePayda\") FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId;"}
+{"instruction": "Bu varlığın tüm dosya kayıtlarını getir.", "input": "VarlikId = 619", "output": "SELECT d.* FROM varlik.\"Dosyalar\" d WHERE d.\"VarlikId\" = :VarlikId;"}
+{"instruction": "Payı 2'nin katı olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE MOD(\"HissePay\", 2) = 0;"}
+{"instruction": "Zemin kat ofisleri getir.", "input": "", "output": "SELECT * FROM varlik.\"BagimsizBolumler\" WHERE \"Kat\" ILIKE 'Zemin' AND \"Nitelik\" ILIKE 'Ofis';"}
+{"instruction": "Bu varlığın ipotek başlangıç tarihlerini getir.", "input": "VarlikId = 1502", "output": "SELECT \"BaslangicTarihi\" FROM varlik.\"Takyidatlar\" WHERE \"VarlikId\" = :VarlikId AND \"TakyidatTuruId\" = 5;"}
+{"instruction": "Hukuk numarası belirtilen değere eşit olan kaydı getir.", "input": "", "output": "SELECT * FROM varlik.\"Hukuklar\" WHERE \"HukukNo\" = :HukukNo;"}
+{"instruction": "Bu varlık için kaç safahat adımı olduğunu getir.", "input": "VarlikId = 951", "output": "SELECT COUNT(*) FROM varlik.\"Safahatlar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu varlığın bitiş tarihi en yakın takyidatını getir.", "input": "VarlikId = 661", "output": "SELECT * FROM varlik.\"Takyidatlar\" WHERE \"VarlikId\" = :VarlikId AND \"BitisTarihi\" IS NOT NULL ORDER BY \"BitisTarihi\" ASC LIMIT 1;"}
+{"instruction": "Bu taşınmazın garanti kayıtlarını getir.", "input": "TasinmazId = 3210", "output": "SELECT g.* FROM varlik.\"Garantiler\" g WHERE g.\"VarlikId\" = (SELECT \"VarlikId\" FROM varlik.\"Tasinmazlar\" WHERE \"Id\" = :TasinmazId);"}
+{"instruction": "Geçen yıl açılmış hukuk kayıtlarını getir.", "input": "", "output": "SELECT * FROM varlik.\"Hukuklar\" WHERE DATE_PART('year', \"BaslangicTarihi\") = DATE_PART('year', NOW()) - 1;"}
+{"instruction": "Bu firmaya bağlı kullanıcıların eklediği teferruatları getir.", "input": "FirmaId = 3", "output": "SELECT t.* FROM varlik.\"Teferruatlar\" t JOIN varlik.\"Kullanicilar\" k ON k.\"Id\" = t.\"EkleyenId\" WHERE k.\"FirmaId\" = :FirmaId;"}
+{"instruction": "Etimesgut ilçesindeki taşınmazları listele.", "input": {"Ilce": "Etimesgut"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\"=i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Bu firmaya ait hukuk kayıtlarını listele.", "input": "FirmaId = 2", "output": "SELECT * FROM varlik.\"Hukuklar\" WHERE \"FirmaId\" = :FirmaId;"}
+{"instruction": "Belirli tarih öncesinde eklenen dosyaları getir.", "input": "Tarih = '2024-01-01'", "output": "SELECT * FROM varlik.\"Dosyalar\" WHERE \"EklemeTarihi\" < :Tarih;"}
+{"instruction": "Varoluş tarihi belirli tarihten eski olan sigortaları getir.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"BaslangicTarihi\" < :Tarih;"}
+{"instruction": "Payı 8 ve üzeri olan maliklerin sayısını getir.", "input": "", "output": "SELECT COUNT(*) FROM varlik.\"Mulkiyetler\" WHERE \"HissePay\" >= 8;"}
+{"instruction": "Bu varlıktaki edinme tarihlerini büyükten küçüğe sırala.", "input": "", "output": "SELECT \"EdinmeTarihi\" FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\" = :VarlikId ORDER BY \"EdinmeTarihi\" DESC;"}
+{"instruction": "Bu varlıkta kiracı mı var?", "input": "VarlikId = 1108", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1108;"}
+{"instruction": "73 metrekareden büyük taşınmazları getir.", "input": {"Metrekare": 73}, "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"BBBrutYuzOlcumu\" > :Metrekare;"}
+{"instruction": "Bu varlıkta en düşük paya sahip malik kim?", "input": "", "output": "SELECT m.\"Ad\", m.\"Soyad\", mu.\"HissePay\" FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\" = mu.\"MalikId\" WHERE mu.\"VarlikId\" = :VarlikId ORDER BY mu.\"HissePay\" ASC LIMIT 1;"}
+{"instruction": "Bu varlığın sigorta başlangıç tarihlerini getir.", "input": "VarlikId = 771", "output": "SELECT \"BaslangicTarihi\" FROM varlik.\"Sigortalar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu varlığa ait aktif sözleşme var mı?", "input": "VarlikId = 1444", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 1444 AND \"BitisTarihi\" > now();"}
+{"instruction": "Kullanıcı türünü getir.", "input": "VarlikId = 1841", "output": "SELECT * FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1841;"}
+{"instruction": "Bu varlığa ait toplam edinme yılı ortalamasını getir.", "input": "", "output": "SELECT AVG(DATE_PART('year',\"EdinmeTarihi\")) FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId;"}
+{"instruction": "Hissesi tam mülkiyet olan kayıtları listele.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"HissePay\" = \"HissePayda\";"}
+{"instruction": "Malik ID üzerinden taşınmaz getir.", "input": "", "output": "SELECT t.* FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Tasinmazlar\" t ON t.\"VarlikId\" = mu.\"VarlikId\" WHERE mu.\"MalikId\" = :MalikId;"}
+{"instruction": "Bahçe kat konutlarını getir.", "input": "", "output": "SELECT * FROM varlik.\"BagimsizBolumler\" WHERE \"Kat\" ILIKE 'Bahçe' AND \"Nitelik\" ILIKE 'Konut';"}
+{"instruction": "Malik ID ile hisse detaylarını getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\" = :MalikId;"}
+{"instruction": "TAKS değeri 0.20–0.40 arası olan kayıtları listele.", "input": "", "output": "SELECT * FROM varlik.\"Imarlar\" WHERE \"Taks\" BETWEEN 0.20 AND 0.40;"}
+{"instruction": "Bu harita kaydının bağlı olduğu varlığı getir.", "input": "HaritaId = 904", "output": "SELECT v.* FROM varlik.\"Haritalar\" h JOIN varlik.\"Varliklar\" v ON v.\"Id\" = h.\"VarlikId\" WHERE h.\"Id\" = :HaritaId;"}
+{"instruction": "Adı Ahmet olan maliklerin listesini getir.", "input": "", "output": "SELECT * FROM varlik.\"Malikler\" WHERE \"Ad\" ILIKE :Ad;"}
+{"instruction": "Varlık bazında ortalama hisse oranını listele.", "input": "", "output": "SELECT \"VarlikId\", AVG(\"HissePay\"::float / \"HissePayda\") FROM varlik.\"Mulkiyetler\" GROUP BY \"VarlikId\";"}
+{"instruction": "İzmir ilindeki tüm taşınmazları getir.", "input": {"Il": "İzmir"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\" = il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "İli Hatay olup net alanı 80 m2’den fazla taşınmazları getir.", "input": "", "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\" = il.\"Id\" WHERE il.\"Ad\" ILIKE :Il AND t.\"NetAlan\" > 80;"}
+{"instruction": "En çok paydaş içeren varlığı getir.", "input": "", "output": "SELECT \"VarlikId\", COUNT(*) FROM varlik.\"Mulkiyetler\" GROUP BY \"VarlikId\" ORDER BY COUNT(*) DESC LIMIT 1;"}
+{"instruction": "Blok E parselindeki tüm bağımsız bölümleri getir.", "input": "", "output": "SELECT * FROM varlik.\"BagimsizBolumler\" WHERE \"Blok\" ILIKE 'E';"}
+{"instruction": "Drone görüntüsü içeren haritaları listele.", "input": "", "output": "SELECT * FROM varlik.\"Haritalar\" WHERE \"HaritaTuru\" ILIKE 'Drone';"}
+{"instruction": "Bu varlığın safahat açıklamalarını getir.", "input": "VarlikId = 344", "output": "SELECT \"Aciklama\" FROM varlik.\"Safahatlar\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Bu malikin en yeni edindiği kaydı getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\"=:MalikId ORDER BY \"EdinmeTarihi\" DESC LIMIT 1;"}
+{"instruction": "Eklenti adı boş olan kayıtları listele.", "input": "", "output": "SELECT * FROM varlik.\"Eklentiler\" WHERE \"EklentiAdi\" IS NULL OR \"EklentiAdi\" = '';"}
+{"instruction": "Bu varlıkta kullanıcı kaydı var mı?", "input": "VarlikId = 1488", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1488;"}
+{"instruction": "Keçiören ilçesindeki taşınmazları listele.", "input": {"Ilce": "Keçiören"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Bu taşınmaz fiilen kim tarafından kullanılmaktadır?", "input": "VarlikId = 1704", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1704;"}
+{"instruction": "Brüt alanı 175 m² üzerindeki taşınmazları getir.", "input": {"Metrekare": 175}, "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"BBBrutYuzOlcumu\" > :Metrekare;"}
+{"instruction": "Kapatılmış safahatları getir.", "input": "", "output": "SELECT * FROM varlik.\"Safahatlar\" WHERE \"Durum\" ILIKE :Durum;"}
+{"instruction": "Bu yapıya ait toplam bağımsız bölüm sayısını getir.", "input": "YapiId = 1602", "output": "SELECT COUNT(*) FROM varlik.\"Tasinmazlar\" WHERE \"YapiId\" = 1602;"}
+{"instruction": "Açıklamasında 'icra' geçen safahatları getir.", "input": "", "output": "SELECT * FROM varlik.\"Safahatlar\" WHERE \"Aciklama\" ILIKE '%icra%';"}
+{"instruction": "En büyük paydanın olduğu ilk 5 kaydı getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" ORDER BY \"HissePay\" DESC LIMIT 5;"}
+{"instruction": "Bu varlığa ait kayıtların ID ve hisse oranını getir.", "input": "", "output": "SELECT \"Id\", (\"HissePay\"::float/\"HissePayda\") AS oran FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId;"}
+{"instruction": "Bitiş tarihi 2025 olan poliçeleri getir.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE DATE_PART('year', \"BitisTarihi\") = 2025;"}
+{"instruction": "Pafta J77 olan taşınmazları listele.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"Pafta\" ILIKE :Pafta;"}
+{"instruction": "Bu kullanıcının toplam fotoğraf sayısını getir.", "input": "EkleyenId = 72", "output": "SELECT COUNT(*) FROM varlik.\"Fotolar\" WHERE \"EkleyenId\" = :EkleyenId;"}
+{"instruction": "Fiili kullanıcı iletişimini getir.", "input": "VarlikId = 1784", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"Kullanicilar\" WHERE \"VarlikId\" = 1784;"}
+{"instruction": "Bu safahat kaydını getir.", "input": "SafahatId = 1201", "output": "SELECT * FROM varlik.\"Safahatlar\" WHERE \"Id\" = :SafahatId;"}
+{"instruction": "Taşınmazın kullanıcısını getir.", "input": "VarlikId = 1991", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1991;"}
+{"instruction": "Bu varlıkta sözleşme mevcut mu?", "input": "VarlikId = 1995", "output": "SELECT * FROM varlik.\"Sozlesmeler\" WHERE \"VarlikId\" = 1995;"}
+{"instruction": "141 metrekareden büyük taşınmazları getir.", "input": {"Metrekare": 141}, "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"BBBrutYuzOlcumu\" > :Metrekare;"}
+{"instruction": "Pay-payda oranına göre büyükten küçüğe tüm kayıtları getir.", "input": "", "output": "SELECT *, (\"HissePay\"::float/\"HissePayda\") AS oran FROM varlik.\"Mulkiyetler\" ORDER BY oran DESC;"}
+{"instruction": "Bu varlığın kullanıcı bilgisini getir.", "input": "VarlikId = 1381", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1381;"}
+{"instruction": "Ekleyen kullanıcıya göre ruhsatları listele.", "input": "EkleyenId = 6", "output": "SELECT * FROM varlik.\"Ruhsatlar\" WHERE \"EkleyenId\" = :EkleyenId;"}
+{"instruction": "Bu varlıkta kaç farklı malik olduğunu getir.", "input": "VarlikId = 1220", "output": "SELECT COUNT(DISTINCT \"MalikId\") FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\" = 1220;"}
+{"instruction": "Ankara ilindeki taşınmazları getir.", "input": {"Il": "Ankara"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Iller\" il ON t.\"IlId\" = il.\"Id\" WHERE il.\"Ad\" ILIKE :Il;"}
+{"instruction": "Bu takyidatın bitiş tarihini getir.", "input": "TakyidatId = 912", "output": "SELECT \"BitisTarihi\" FROM varlik.\"Takyidatlar\" WHERE \"Id\" = :TakyidatId;"}
+{"instruction": "Belirli bir varlığa ait tüm sigorta kayıtlarını getir.", "input": "Tablo: Sigortalar(Id, VarlikId, SigortaTipiId, BaslangicTarihi, BitisTarihi)", "output": "SELECT s.\"Id\", s.\"SigortaTipiId\", s.\"BaslangicTarihi\", s.\"BitisTarihi\" FROM varlik.\"Sigortalar\" s WHERE s.\"VarlikId\" = 123;"}
+{"instruction": "Çankaya ilçesindeki taşınmazları listele.", "input": {"Ilce": "Çankaya"}, "output": "SELECT t.* FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Ilceler\" i ON t.\"IlceId\" = i.\"Id\" WHERE i.\"Ad\" ILIKE :Ilce;"}
+{"instruction": "Bu varlık üzerinde aktif kullanıcı var mı?", "input": "VarlikId = 1270", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1270 AND \"KullaniciTuruId\" IS NOT NULL;"}
+{"instruction": "Tipi ARSA olan varlıkları listele.", "input": "", "output": "SELECT v.* FROM varlik.\"Varliklar\" v JOIN varlik.\"Tipler\" t ON v.\"TipId\" = t.\"Id\" WHERE t.\"Ad\" ILIKE :Tip;"}
+{"instruction": "Bu bağımsız bölümün kat planına eriş.", "input": "BBId = 1626", "output": "SELECT \"KatPlani\" FROM varlik.\"Tasinmazlar\" WHERE \"Id\" = 1626;"}
+{"instruction": "Bu varlıkta payı en düşük maliki getir.", "input": "", "output": "SELECT m.\"Ad\", m.\"Soyad\", mu.\"HissePay\" FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\"=mu.\"MalikId\" WHERE mu.\"VarlikId\"=:VarlikId ORDER BY mu.\"HissePay\" ASC LIMIT 1;"}
+{"instruction": "Vadesi dolan takyidatları listele.", "input": "", "output": "SELECT * FROM varlik.\"Takyidatlar\" WHERE \"BitisTarihi\" < NOW();"}
+{"instruction": "Bir varlığa ait en küçük pay değerini getir.", "input": "", "output": "SELECT MIN(\"HissePay\") FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId;"}
+{"instruction": "Bu varlık için toplam malik sayısını getir.", "input": "", "output": "SELECT COUNT(*) FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\" = :VarlikId;"}
+{"instruction": "Edinme sebebi 'Kamulaştırma' olan kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"EdinmeSebebi\" ILIKE :Sebep;"}
+{"instruction": "Bu taşınmazda kim oturuyor?", "input": "VarlikId = 1999", "output": "SELECT \"AdSoyad\", \"Telefon\" FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 1999;"}
+{"instruction": "Ada 201 parsel 90 taşınmaz bilgilerini getir.", "input": "", "output": "SELECT * FROM varlik.\"Tasinmazlar\" WHERE \"Ada\" = 201 AND \"Parsel\" = 90;"}
+{"instruction": "Poliçe numarası 2023-TR-551 olan sigorta kaydını getir.", "input": "", "output": "SELECT * FROM varlik.\"Sigortalar\" WHERE \"PoliçeNo\" = '2023-TR-551';"}
+{"instruction": "Pay 2 olan tüm malik isimlerini getir.", "input": "", "output": "SELECT m.\"Ad\", m.\"Soyad\" FROM varlik.\"Mulkiyetler\" mu JOIN varlik.\"Malikler\" m ON m.\"Id\"=mu.\"MalikId\" WHERE mu.\"HissePay\"=2;"}
+{"instruction": "Dosya adında 'ruhsat' geçen kayıtları getir.", "input": "", "output": "SELECT * FROM varlik.\"Dosyalar\" WHERE \"DosyaAdi\" ILIKE '%ruhsat%';"}
+{"instruction": "Bu bağımsız bölümün bulunduğu yapının kullanım durumunu getir.", "input": "BBId = 642", "output": "SELECT y.\"KullanimDurumu\" FROM varlik.\"Tasinmazlar\" t JOIN varlik.\"Yapilar\" y ON t.\"YapiId\" = y.\"Id\" WHERE t.\"Id\" = 642;"}
+{"instruction": "Bu malikin hisse payı en küçük kaydını getir.", "input": "", "output": "SELECT * FROM varlik.\"Mulkiyetler\" WHERE \"MalikId\"=:MalikId ORDER BY \"HissePay\" ASC LIMIT 1;"}
+{"instruction": "Son 7 günde eklenen dosyaları getir.", "input": "", "output": "SELECT * FROM varlik.\"Dosyalar\" WHERE \"EklemeTarihi\" >= NOW() - INTERVAL '7 days';"}
+{"instruction": "Hukuk kayıtlarının sadece Id ve HukukTuruId değerlerini getir.", "input": "", "output": "SELECT \"Id\", \"HukukTuruId\" FROM varlik.\"Hukuklar\";"}
+{"instruction": "Otopark kapasitesi 20 üzeri olan yapıları listele.", "input": "", "output": "SELECT * FROM varlik.\"Yapilar\" WHERE \"OtoparkKapasitesi\" > 20;"}
+{"instruction": "Bu varlık için toplam payda değerini getir.", "input": "", "output": "SELECT SUM(\"HissePayda\") FROM varlik.\"Mulkiyetler\" WHERE \"VarlikId\"=:VarlikId;"}
+{"instruction": "Taşınmazın kullanıcı türünü getir.", "input": "VarlikId = 510", "output": "SELECT * FROM varlik.\"VarlikKullanicilar\" WHERE \"VarlikId\" = 510;"}

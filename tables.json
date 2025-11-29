@@ -1,0 +1,710 @@
+[
+  {
+    "table": "ChatAIlar",
+    "columns": {
+      "Id": "int4",
+      "Soru": "text",
+      "Cevap": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Degerlemeler",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "DegerlemeMetni": "text",
+      "ToplamDeger": "float8",
+      "RaporTarihi": "timestamptz",
+      "SonucMetni": "text",
+      "SatilabilirlikTuruId": "int4",
+      "EksperNotu": "text",
+      "Aciklama": "text",
+      "DosyaAdi": "text",
+      "GercekDosyaAdi": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "SatilabilirlikTuruId": "Tipler.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Dosyalar",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "DosyaTuruId": "int4",
+      "DosyaAdi": "text",
+      "GercekDosyaAdi": "text",
+      "Aciklama": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4",
+      "HukukMu": "int4",
+      "HukukId": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "DosyaTuruId": "Tipler.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Eklentiler",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "KullanimTuru": "text",
+      "YapiTarzi": "text",
+      "YapiSinifi": "text",
+      "YapiYasi": "int4",
+      "YipranmaOrani": "float8",
+      "TabanAlani": "float8",
+      "ToplamInsaatAlani": "float8",
+      "KatSayisi": "int4",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "Aciklama": "text",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "EmlakBeyanlar",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "BeyanDonemi": "text",
+      "SokakRayicBedeli": "float8",
+      "AsgariArsaBedeli": "float8",
+      "AsgariBinaBedeli": "float8",
+      "AsgariToplamEmlakBeyanDegeri": "float8",
+      "Aciklama": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Firmalar",
+    "columns": {
+      "Id": "int4",
+      "Ad": "text"
+    },
+    "foreign_keys": {}
+  },
+
+  {
+    "table": "Fotolar",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "FotoTuruId": "int4",
+      "DosyaAdi": "text",
+      "GercekDosyaAdi": "text",
+      "Aciklama": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4",
+      "HukukMu": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "FotoTuruId": "Tipler.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Garantiler",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "GarantiTipiId": "int4",
+      "BaslangicTarihi": "timestamptz",
+      "BitisTarihi": "timestamptz",
+      "GarantiFirmasi": "text",
+      "Aciklama": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4",
+      "Belge": "text"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "GarantiTipiId": "Tipler.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "HareketLoglari",
+    "columns": {
+      "Id": "int4",
+      "Islem": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "KayitId": "int4",
+      "Tablo": "text",
+      "LogText": "text"
+    },
+    "foreign_keys": {
+      "EkleyenId": "Kullanicilar.Id"
+    }
+  },
+  {
+    "table": "Haritalar",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "Enlem": "text",
+      "Boylam": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Hukuklar",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "DosyaNo": "text",
+      "TarafRol1": "text",
+      "TarafAdi1": "text",
+      "TarafRol2": "text",
+      "TarafAdi2": "text",
+      "Konu": "text",
+      "Aciklama": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Ilceler",
+    "columns": {
+      "Id": "int4",
+      "Ad": "text",
+      "IlId": "int4",
+      "Enlem": "text",
+      "Boylam": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "IlId": "Iller.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Iller",
+    "columns": {
+      "Id": "int4",
+      "Ad": "text",
+      "Enlem": "text",
+      "Boylam": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Imarlar",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "Olcek": "text",
+      "YapiNizami": "text",
+      "Lejant": "text",
+      "PlanAdi": "text",
+      "KotAlinacakNokta": "text",
+      "EkAciklama": "text",
+      "PlanNotlari": "text",
+      "PlanTuru": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "tasinmazkimlikno": "text",
+      "FirmaId": "int4",
+      "YanBahceCekmeMesafesi": "float8",
+      "ToplamAlan": "float8",
+      "Taks": "float8",
+      "Kaks": "float8",
+      "Hmax": "float8",
+      "OnBahceCekmeMesafesi": "float8",
+      "ArkaBahceCekmeMesafe": "float8",
+      "BinaDerinligi": "float8"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Kullanicilar",
+    "columns": {
+      "Id": "int4",
+      "Sifre": "varchar",
+      "Yetki": "varchar",
+      "Ad": "varchar",
+      "Soyad": "varchar",
+      "Eposta": "varchar",
+      "Telefon": "varchar",
+      "Resim": "varchar",
+      "IlkSifre": "int4",
+      "TcNo": "int8",
+      "DogumTarihi": "timestamptz",
+      "Unvan": "varchar",
+      "Durum": "int4",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Malikler",
+    "columns": {
+      "Id": "int4",
+      "Ad": "text",
+      "Soyad": "text",
+      "BabaAdi": "text",
+      "TcNo": "text",
+      "VergiNo": "text",
+      "TuzelMi": "int4",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Mulkiyetler",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "MalikId": "int4",
+      "HissePay": "text",
+      "HissePayda": "text",
+      "HisseyeDusenMetreKare": "float8",
+      "HisseSistemNo": "text",
+      "EdinmeSebebi": "text",
+      "EdinmeTarihi": "timestamptz",
+      "EdinmeYevmiyeNo": "text",
+      "HisseTipi": "text",
+      "IstirakElBirligiNo": "text",
+      "TerkinSebebi": "text",
+      "TerkinTarihi": "timestamptz",
+      "TerkinYevmiyeNo": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "tasinmazkimlikno": "varchar",
+      "tcno": "text",
+      "vergino": "text",
+      "Aciklama": "text",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "MalikId": "Malikler.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+},
+  {
+    "table": "Ruhsatlar",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "AdSoyad": "text",
+      "Tc": "text",
+      "Plaka": "text",
+      "Marka": "text",
+      "Model": "text",
+      "ModelYili": "int4",
+      "AracTipi": "text",
+      "Renk": "text",
+      "SasiNo": "text",
+      "MotorNo": "text",
+      "MotorGucu": "text",
+      "TescilTarihi": "timestamptz",
+      "SeriNo": "text",
+      "MuayeneGecerlilikTarihi": "timestamptz",
+      "Aciklama": "text",
+      "Belge": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Safahatlar",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "HukukId": "int4",
+      "Tarih": "timestamptz",
+      "IslemYapanBirim": "text",
+      "IslemDetayi": "text",
+      "Aciklama": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "HukukId": "Hukuklar.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Sigortalar",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "SigortaTipiId": "int4",
+      "BaslangicTarihi": "timestamptz",
+      "BitisTarihi": "timestamptz",
+      "SigortaFirmasi": "text",
+      "Aciklama": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4",
+      "Belge": "text"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "SigortaTipiId": "Tipler.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Sozlesmeler",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "SozlesmeTipiId": "int4",
+      "BaslangicTarihi": "timestamptz",
+      "BitisTarihi": "timestamptz",
+      "Taraf": "text",
+      "Aciklama": "text",
+      "Belge": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "SozlesmeTipiId": "Tipler.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Takyidatlar",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "HisseId": "int4",
+      "TakyidatTuruId": "int4",
+      "Tarih": "timestamptz",
+      "Aciklama": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "HisseId": "Mulkiyetler.Id",
+      "TakyidatTuruId": "Tipler.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Tasinmazlar",
+    "columns": {
+      "Id": "int4",
+      "TapuTuruId": "int4",
+      "IlId": "int4",
+      "IlceId": "int4",
+      "Mahalle": "text",
+      "Mevkii": "text",
+      "Ada": "text",
+      "Parsel": "text",
+      "Blok": "text",
+      "Kat": "text",
+      "BBNO": "text",
+      "TasinmazKimlikNo": "text",
+      "CiltNo": "text",
+      "SayfaNo": "text",
+      "ATYuzOlcumu": "float8",
+      "BBNiteligi": "text",
+      "BBBrutYuzOlcumu": "numeric",
+      "BBNetYuzOlcumu": "numeric",
+      "ArsaPay": "int4",
+      "ArsaPayda": "int4",
+      "AnaTasinmazNiteligi": "text",
+      "KurumAdi": "text",
+      "Pafta": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "geometri": "geometry",
+      "Aciklama": "text",
+      "FirmaId": "int4",
+      "VarlikId": "int4"
+    },
+    "foreign_keys": {
+      "TapuTuruId": "Tipler.Id",
+      "IlId": "Iller.Id",
+      "IlceId": "Ilceler.Id",
+      "VarlikId": "Varliklar.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Teferruatlar",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "SistemNo": "int4",
+      "Tip": "text",
+      "Tanim": "text",
+      "Adet": "text",
+      "TesisKurum": "text",
+      "TesisTarihi": "timestamptz",
+      "TesisYevmiyesi": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "Aciklama": "text",
+      "FirmaId": "int4",
+      "Deger": "float8"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Tipler",
+    "columns": {
+      "Id": "int4",
+      "TipId": "int4",
+      "TipAdi": "text",
+      "Aciklama": "text",
+      "Deger": "int4",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4",
+      "UstTipId": "int4"
+    },
+    "foreign_keys": {
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "VarlikKullanicilar",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "Tc": "text",
+      "AdSoyad2": "text",
+      "BabaAdi": "text",
+      "Telefon2": "text",
+      "Telefon": "text",
+      "DogumYeri": "text",
+      "DogumTarihi": "timestamptz",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "Aciklama": "text",
+      "FirmaId": "int4",
+      "AdSoyad": "text",
+      "KullaniciTuruId": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "KullaniciTuruId": "Tipler.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Varliklar",
+    "columns": {
+      "Id": "int4",
+      "TipId": "int4",
+      "AltTipId": "int4",
+      "Kod": "text",
+      "Aciklama": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "TipId": "Tipler.Id",
+      "AltTipId": "Tipler.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Vergiler",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "VergiTipiId": "int4",
+      "VergiTarihi": "timestamptz",
+      "SonrakiVergiTarihi": "timestamptz",
+      "Kurum": "text",
+      "Aciklama": "text",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4",
+      "Belge": "text"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "VergiTipiId": "Tipler.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "Yapilar",
+    "columns": {
+      "Id": "int4",
+      "VarlikId": "int4",
+      "KatNo": "text",
+      "KattakiBBSayisi": "int4",
+      "KattakiKonum": "text",
+      "KullanimTuru": "text",
+      "KullanimSekli": "text",
+      "YasalKullanimAlani": "float8",
+      "MevcutKullanimAlani": "float8",
+      "CepheSayisi": "int4",
+      "CepheYonu": "text",
+      "OdaSayisi": "int4",
+      "SalonSayisi": "int4",
+      "MutfakSayisi": "int4",
+      "KilerSayisi": "int4",
+      "BanyoSayisi": "int4",
+      "BalkonSayisi": "int4",
+      "WcSayisi": "int4",
+      "EksikImalatOrani": "float8",
+      "YapiKalitesi": "text",
+      "UavtNo": "text",
+      "Mahalle": "text",
+      "Cadde": "text",
+      "DisKapiNo": "text",
+      "IcKapiNo": "text",
+      "SuAboneNo": "text",
+      "ElektrikAboneNo": "text",
+      "EkAciklama": "text",
+      "IskanBelgeNo": "text",
+      "IskanBelgeTarihi": "timestamptz",
+      "BinaAdi": "text",
+      "BinaToplamKatSayisi": "int4",
+      "BinaToplamBBSayisi": "int4",
+      "BinaKonutAdedi": "int4",
+      "BinaTicariAdedi": "int4",
+      "BinaRuhsatNo": "text",
+      "BinaRuhsatTarihi": "timestamptz",
+      "BinaMimariProjeTarihi": "timestamptz",
+      "EkleyenId": "int4",
+      "EklemeTarihi": "timestamptz",
+      "FirmaId": "int4"
+    },
+    "foreign_keys": {
+      "VarlikId": "Varliklar.Id",
+      "EkleyenId": "Kullanicilar.Id",
+      "FirmaId": "Firmalar.Id"
+    }
+  },
+  {
+    "table": "__EFMigrationsHistory",
+    "columns": {
+      "MigrationId": "varchar",
+      "ProductVersion": "varchar"
+    },
+    "foreign_keys": {}
+  }
+,
+  {
+    "table": "embeddings",
+    "columns": {
+      "id": "serial4",
+      "schema_name": "text",
+      "description": "text",
+      "fields": "text",
+      "embedding": "float8[]",
+      "created_at": "timestamp"
+    },
+    "foreign_keys": {}
+  },
+  {
+    "table": "spatial_ref_sys",
+    "columns": {
+      "srid": "int4",
+      "auth_name": "varchar",
+      "auth_srid": "int4",
+      "srtext": "varchar",
+      "proj4text": "varchar"
+    },
+    "foreign_keys": {}
+  }
+
+]
