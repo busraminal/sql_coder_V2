@@ -130,6 +130,10 @@ Metrikler: Exec-Accuracy, AST Accuracy, Repair Rate, Reflection Loop Success.
 - Düşük Retrieval kalite → k artır (k=8)  
 
 ---
+## Hugging Face
+-Eğitilmiş modele buradan ulaşabilirsiniz
+-https://huggingface.co/BMina/sql_coder
 
+---
 ## 📄 Lisans
 MIT License.
