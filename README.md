@@ -3,21 +3,7 @@
 
 Bu proje, doğal dilde gelen soruları güvenli, şema-uyumlu ve açıklanabilir SQL sorgularına dönüştüren gelişmiş bir NL→SQL analist ajan mimarisi sunar.
 
----
-
-## 🗂️ İçindekiler
-1. Özet  
-2. Öne Çıkanlar  
-3. Mimari  
-4. Dizin Yapısı  
-5. Kurulum  
-6. Dataset Hazırlığı  
-7. Eğitim (Training)  
-8. Inference Pipeline  
-9. Güvenlik Katmanı  
-10. Eval Suite  
-11. Troubleshooting  
-12. Lisans  
+--- 
 
 ---
 
